@@ -3,15 +3,16 @@
 (* @PATH := '' *)
 (* @OBJECTFLAGS := '0, 8' *)
 (* @SYMFILEFLAGS := '2048' *)
+
+FUNCTION fK14PumpsControl : BOOL
 (*
 	3. Управление насосами К14
 	контура отопления и вентиляции
 *)
-FUNCTION fK14PumpsControl : BOOL
 VAR_INPUT
-	ManualMode: BOOL;						(*Ручной режим*)
-	WorkAllowed: BOOL;
-	SummerMode: BOOL;
+	ManualMode: BOOL;						(*Ручной режим?*)
+	WorkAllowed: BOOL;					(*Работа разрешена?*)
+	SummerMode: BOOL;						(*Летний режим?*)
 	TurnOnPump1ButtonPressed: BOOL;	(*Нажата кнопка "Пуск 1 насоса"?*)
 	TurnOffPump1ButtonPressed: BOOL;	(*Нажата кнопка "Стоп 1 насоса"?*)
 	Pump1EmergencyStopButtonPressed: BOOL; (*Нажат аварийный стоп 1 насоса?*)
@@ -56,19 +57,19 @@ IF ManualMode THEN (*Ручной режим?*)
 	);
 
 ELSE
-	IF WorkAllowed THEN
-		IF SummerMode THEN
-			IF K14PumpFaulty[3] THEN
-				IF K14PumpFaulty[1] THEN
-					IF K14PumpFaulty[2] THEN
+	IF WorkAllowed THEN	(*Работа разрешена?*)
+		IF SummerMode THEN	(*Летний режим?*)
+			IF K14PumpFaulty[3] THEN	(*Неисправен насос 3*)
+				IF K14PumpFaulty[1] THEN	(*Неисправен насос 1*)
+					IF K14PumpFaulty[2] THEN	(*Неисправен насос 2*)
 						RETURN;
 					ELSE
-						IF fPump2StartTimeout() THEN
-							IF PressureDrop THEN
-								IF Pump2EmergencyStopButtonPressed THEN
+						IF fPump2StartTimeout() THEN	(*Прошло две секунды?*)
+							IF PressureDrop THEN			(*Есть перепад давления?*)
+								IF Pump2EmergencyStopButtonPressed THEN	(*Нажат аварийный стоп 2 насоса?*)
 									RETURN;
 								ELSE
-									fTurnOnPump2();
+									fTurnOnK14Pump(2); (*Включить насос 2*)
 									RETURN;
 								END_IF;
 							ELSE
