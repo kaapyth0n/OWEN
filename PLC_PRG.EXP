@@ -19,6 +19,6 @@ fK14PumpsControl(
 	TurnOffPump1ButtonPressed	:= PLC160DI.K14_PumpStop[1],
 	Pump1EmergencyStopButtonPressed := FALSE,		(*TODO: Выяснить про этот вход*)
 	Pump1State						:= MU110DO.K14PumpIsOn[1],
-	Pump1Faulty						:= ,
+
 );
 END_PROGRAM

@@ -24,6 +24,9 @@ VAR_GLOBAL
 	PLC160AO : strPLC160AO;
 	MV110DI  : strMV110DI;
 	MU110DO  : strMU110DO;
+
+	K14PumpFaulty : ARRAY [1..MAX_K14_PUMPS_NUM] OF BOOL;
+	(*Неиправен 1-3 насос группы К14?*)
 END_VAR
 
 (* @OBJECT_END := 'Global_Variables' *)
