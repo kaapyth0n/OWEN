@@ -1,0 +1,52 @@
+
+(* @NESTEDCOMMENTS := 'Yes' *)
+(* @PATH := '' *)
+(* @OBJECTFLAGS := '0, 8' *)
+(* @SYMFILEFLAGS := '2048' *)
+FUNCTION fHeatingAndVentilationCirK14PumpsControl : BOOL
+VAR_INPUT
+	ManualMode: BOOL; (*Ручной режим*)
+	SelectRun: BOOL;	(*Выбор пуск/стоп*)
+	TurnOnPump1ButtonPressed: BOOL;
+	Pump1State: BOOL;
+	TurnOffPump1ButtonPressed: BOOL;
+	Pump1EmergencyStopButtonPressed: BOOL;
+END_VAR
+VAR
+	i: USINT;
+END_VAR
+(* @END_DECLARATION := '0' *)
+
+IF ManualMode THEN (*Ручной режим?*)
+	IF SelectRun THEN (*Выбор пуск/стоп*)
+		IF TurnOnPump1ButtonPressed OR Pump1State THEN (*Нажата кнопка "Пуск 1 насоса" или Работает 1 насос?*)
+			IF TurnOffPump1ButtonPressed THEN (*Нажата кнопка "Стоп 1 насоса"?*)
+				RETURN;
+			ELSE
+				IF Pump1EmergencyStopButtonPressed THEN (*Нажат аварийный стоп 1 насоса?*)
+					RETURN;
+				ELSE
+					fTurnOnPump1();
+				END_IF;
+
+			END_IF;
+		ELSE
+			RETURN;
+
+		END_IF;
+
+
+
+	ELSE
+
+	END_IF;
+
+
+ELSE
+
+
+
+
+
+END_IF;
+END_FUNCTION

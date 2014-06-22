@@ -1,0 +1,31 @@
+(* @NESTEDCOMMENTS := 'Yes' *)
+(* @PATH := '' *)
+(* @OBJECTFLAGS := '0, 8' *)
+(*
+	поз. А1
+	Контроллер ПЛК160
+	Аналоговые входы
+*)
+TYPE strPLC160AI :
+STRUCT
+(*
+	Аналоговые входы №1-3:
+	Сигналы 0-20mA от частотных преобразователей UZ
+*)
+	UZSignal : ARRAY [1..MAX_UZ_NUM] OF tUZSignal;
+
+(*
+	Аналоговые входы №4-6:
+	Сигналы 4-20mA измерения разрежения из щита ЩИР
+	по одному сигналу на каждый котел
+*)
+	DilutionSignal : ARRAY [1..MAX_BOILERS_NUM] OF tDelutionSignal;
+
+(*
+	Незадействованные входы
+*)
+	Reserved : ARRAY [1..2] OF tAnalogInput;
+
+END_STRUCT
+END_TYPE
+(* @END_DECLARATION := '0' *)

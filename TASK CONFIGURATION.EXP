@@ -1,0 +1,41 @@
+
+RESOURCE
+{event_task : 'start','Called when program starts','','FUNCTION systemevent: DWORD$R$NVAR_INPUT$R$N$TdwEvent: DWORD;$R$N$TdwFilter: DWORD;$R$N$TdwOwner: DWORD;$R$NEND_VAR$R$N'}{event_task_info : 0,1,200}
+{event_task : 'stop','Called when program stops','','FUNCTION systemevent: DWORD$R$NVAR_INPUT$R$N$TdwEvent: DWORD;$R$N$TdwFilter: DWORD;$R$N$TdwOwner: DWORD;$R$NEND_VAR$R$N'}{event_task_info : 0,2,200}
+{event_task : 'before_reset','Called before reset takes place','','FUNCTION systemevent: DWORD$R$NVAR_INPUT$R$N$TdwEvent: DWORD;$R$N$TdwFilter: DWORD;$R$N$TdwOwner: DWORD;$R$NEND_VAR$R$N'}{event_task_info : 0,3,200}
+{event_task : 'after_reset','Called after reset took place','','FUNCTION systemevent: DWORD$R$NVAR_INPUT$R$N$TdwEvent: DWORD;$R$N$TdwFilter: DWORD;$R$N$TdwOwner: DWORD;$R$NEND_VAR$R$N'}{event_task_info : 0,4,200}
+{event_task : 'shutdown','Called before shutdown is performed','','FUNCTION systemevent: DWORD$R$NVAR_INPUT$R$N$TdwEvent: DWORD;$R$N$TdwFilter: DWORD;$R$N$TdwOwner: DWORD;$R$NEND_VAR$R$N'}{event_task_info : 0,5,200}
+{event_task : 'excpt_cycletime_overflow','Called when a cycletime overflow happened','','FUNCTION systemevent: DWORD$R$NVAR_INPUT$R$N$TdwEvent: DWORD;$R$N$TdwFilter: DWORD;$R$N$TdwOwner: DWORD;$R$NEND_VAR$R$N'}{event_task_info : 0,6,200}
+{event_task : 'excpt_watchdog','Software watchdog OF IEC-task expired','','FUNCTION systemevent: DWORD$R$NVAR_INPUT$R$N$TdwEvent: DWORD;$R$N$TdwFilter: DWORD;$R$N$TdwOwner: DWORD;$R$NEND_VAR$R$N'}{event_task_info : 0,7,200}
+{event_task : 'excpt_fieldbus','Fieldbus error occurred','','FUNCTION systemevent: DWORD$R$NVAR_INPUT$R$N$TdwEvent: DWORD;$R$N$TdwFilter: DWORD;$R$N$TdwOwner: DWORD;$R$NEND_VAR$R$N'}{event_task_info : 0,9,200}
+{event_task : 'excpt_ioupdate','IO-update error','','FUNCTION systemevent: DWORD$R$NVAR_INPUT$R$N$TdwEvent: DWORD;$R$N$TdwFilter: DWORD;$R$N$TdwOwner: DWORD;$R$NEND_VAR$R$N'}{event_task_info : 0,10,200}
+{event_task : 'excpt_illegal_instruction','Illegal instruction','','FUNCTION systemevent: DWORD$R$NVAR_INPUT$R$N$TdwEvent: DWORD;$R$N$TdwFilter: DWORD;$R$N$TdwOwner: DWORD;$R$NEND_VAR$R$N'}{event_task_info : 0,11,200}
+{event_task : 'excpt_access_violation','Access violation','','FUNCTION systemevent: DWORD$R$NVAR_INPUT$R$N$TdwEvent: DWORD;$R$N$TdwFilter: DWORD;$R$N$TdwOwner: DWORD;$R$NEND_VAR$R$N'}{event_task_info : 0,12,200}
+{event_task : 'excpt_priv_instruction','Privileged instruction','','FUNCTION systemevent: DWORD$R$NVAR_INPUT$R$N$TdwEvent: DWORD;$R$N$TdwFilter: DWORD;$R$N$TdwOwner: DWORD;$R$NEND_VAR$R$N'}{event_task_info : 0,13,200}
+{event_task : 'excpt_dividebyzero','Division BY zero','','FUNCTION systemevent: DWORD$R$NVAR_INPUT$R$N$TdwEvent: DWORD;$R$N$TdwFilter: DWORD;$R$N$TdwOwner: DWORD;$R$NEND_VAR$R$N'}{event_task_info : 0,18,200}
+{event_task : 'excpt_fpu_error','FPU: Unspecified error','','FUNCTION systemevent: DWORD$R$NVAR_INPUT$R$N$TdwEvent: DWORD;$R$N$TdwFilter: DWORD;$R$N$TdwOwner: DWORD;$R$NEND_VAR$R$N'}{event_task_info : 0,22,200}
+{event_task : 'excpt_fpu_denormal_operand','FPU: Denormal operand','','FUNCTION systemevent: DWORD$R$NVAR_INPUT$R$N$TdwEvent: DWORD;$R$N$TdwFilter: DWORD;$R$N$TdwOwner: DWORD;$R$NEND_VAR$R$N'}{event_task_info : 0,23,200}
+{event_task : 'excpt_fpu_dividebyzero','FPU: Division BY zero','','FUNCTION systemevent: DWORD$R$NVAR_INPUT$R$N$TdwEvent: DWORD;$R$N$TdwFilter: DWORD;$R$N$TdwOwner: DWORD;$R$NEND_VAR$R$N'}{event_task_info : 0,24,200}
+{event_task : 'excpt_fpu_invalid_operation','FPU: Invalid operation','','FUNCTION systemevent: DWORD$R$NVAR_INPUT$R$N$TdwEvent: DWORD;$R$N$TdwFilter: DWORD;$R$N$TdwOwner: DWORD;$R$NEND_VAR$R$N'}{event_task_info : 0,25,200}
+{event_task : 'excpt_fpu_overflow','FPU: Overflow','','FUNCTION systemevent: DWORD$R$NVAR_INPUT$R$N$TdwEvent: DWORD;$R$N$TdwFilter: DWORD;$R$N$TdwOwner: DWORD;$R$NEND_VAR$R$N'}{event_task_info : 0,26,200}
+{event_task : 'excpt_fpu_stack_check','FPU: Stack check','','FUNCTION systemevent: DWORD$R$NVAR_INPUT$R$N$TdwEvent: DWORD;$R$N$TdwFilter: DWORD;$R$N$TdwOwner: DWORD;$R$NEND_VAR$R$N'}{event_task_info : 0,27,200}
+{event_task : 'after_reading_inputs','Called after reading of inputs','','FUNCTION systemevent: DWORD$R$NVAR_INPUT$R$N$TdwEvent: DWORD;$R$N$TdwFilter: DWORD;$R$N$TdwOwner: DWORD;$R$NEND_VAR$R$N'}{event_task_info : 0,28,200}
+{event_task : 'before_writing_outputs','Called before writing of outputs','','FUNCTION systemevent: DWORD$R$NVAR_INPUT$R$N$TdwEvent: DWORD;$R$N$TdwFilter: DWORD;$R$N$TdwOwner: DWORD;$R$NEND_VAR$R$N'}{event_task_info : 0,29,200}
+{event_task : 'debug_loop','Debug loop at breakpoint','','FUNCTION systemevent: DWORD$R$NVAR_INPUT$R$N$TdwEvent: DWORD;$R$N$TdwFilter: DWORD;$R$N$TdwOwner: DWORD;$R$NEND_VAR$R$N'}{event_task_info : 0,31,200}
+{event_task : 'interrupt_1','Interrupt 1','','FUNCTION systemevent: DWORD$R$NVAR_INPUT$R$N$TdwEvent: DWORD;$R$N$TdwFilter: DWORD;$R$N$TdwOwner: DWORD;$R$NEND_VAR$R$N'}{event_task_info : 0,36,200}
+{event_task : 'interrupt_2','Interrupt 2','','FUNCTION systemevent: DWORD$R$NVAR_INPUT$R$N$TdwEvent: DWORD;$R$N$TdwFilter: DWORD;$R$N$TdwOwner: DWORD;$R$NEND_VAR$R$N'}{event_task_info : 0,37,200}
+{event_task : 'interrupt_3','Interrupt 3','','FUNCTION systemevent: DWORD$R$NVAR_INPUT$R$N$TdwEvent: DWORD;$R$N$TdwFilter: DWORD;$R$N$TdwOwner: DWORD;$R$NEND_VAR$R$N'}{event_task_info : 0,38,200}
+{event_task : 'interrupt_4','Interrupt 4','','FUNCTION systemevent: DWORD$R$NVAR_INPUT$R$N$TdwEvent: DWORD;$R$N$TdwFilter: DWORD;$R$N$TdwOwner: DWORD;$R$NEND_VAR$R$N'}{event_task_info : 0,39,200}
+{event_task : 'interrupt_5','Interrupt 5','','FUNCTION systemevent: DWORD$R$NVAR_INPUT$R$N$TdwEvent: DWORD;$R$N$TdwFilter: DWORD;$R$N$TdwOwner: DWORD;$R$NEND_VAR$R$N'}{event_task_info : 0,40,200}
+{event_task : 'interrupt_6','Interrupt 6','','FUNCTION systemevent: DWORD$R$NVAR_INPUT$R$N$TdwEvent: DWORD;$R$N$TdwFilter: DWORD;$R$N$TdwOwner: DWORD;$R$NEND_VAR$R$N'}{event_task_info : 0,41,200}
+{event_task : 'interrupt_7','Interrupt 7','','FUNCTION systemevent: DWORD$R$NVAR_INPUT$R$N$TdwEvent: DWORD;$R$N$TdwFilter: DWORD;$R$N$TdwOwner: DWORD;$R$NEND_VAR$R$N'}{event_task_info : 0,42,200}
+{event_task : 'interrupt_8','Interrupt 8','','FUNCTION systemevent: DWORD$R$NVAR_INPUT$R$N$TdwEvent: DWORD;$R$N$TdwFilter: DWORD;$R$N$TdwOwner: DWORD;$R$NEND_VAR$R$N'}{event_task_info : 0,43,200}
+{event_task : 'interrupt_9','Interrupt 9','','FUNCTION systemevent: DWORD$R$NVAR_INPUT$R$N$TdwEvent: DWORD;$R$N$TdwFilter: DWORD;$R$N$TdwOwner: DWORD;$R$NEND_VAR$R$N'}{event_task_info : 0,44,200}
+{event_task : 'interrupt_10','Interrupt 10','','FUNCTION systemevent: DWORD$R$NVAR_INPUT$R$N$TdwEvent: DWORD;$R$N$TdwFilter: DWORD;$R$N$TdwOwner: DWORD;$R$NEND_VAR$R$N'}{event_task_info : 0,45,200}
+{event_task : 'interrupt_11','Interrupt 11','','FUNCTION systemevent: DWORD$R$NVAR_INPUT$R$N$TdwEvent: DWORD;$R$N$TdwFilter: DWORD;$R$N$TdwOwner: DWORD;$R$NEND_VAR$R$N'}{event_task_info : 0,46,200}
+{event_task : 'interrupt_12','Interrupt 12','','FUNCTION systemevent: DWORD$R$NVAR_INPUT$R$N$TdwEvent: DWORD;$R$N$TdwFilter: DWORD;$R$N$TdwOwner: DWORD;$R$NEND_VAR$R$N'}{event_task_info : 0,47,200}
+{event_task : 'interrupt_13','Interrupt 13','','FUNCTION systemevent: DWORD$R$NVAR_INPUT$R$N$TdwEvent: DWORD;$R$N$TdwFilter: DWORD;$R$N$TdwOwner: DWORD;$R$NEND_VAR$R$N'}{event_task_info : 0,48,200}
+{event_task : 'interrupt_14','Interrupt 14','','FUNCTION systemevent: DWORD$R$NVAR_INPUT$R$N$TdwEvent: DWORD;$R$N$TdwFilter: DWORD;$R$N$TdwOwner: DWORD;$R$NEND_VAR$R$N'}{event_task_info : 0,49,200}
+{event_task : 'interrupt_15','Interrupt 15','','FUNCTION systemevent: DWORD$R$NVAR_INPUT$R$N$TdwEvent: DWORD;$R$N$TdwFilter: DWORD;$R$N$TdwOwner: DWORD;$R$NEND_VAR$R$N'}{event_task_info : 0,50,200}
+
+END_RESOURCE
