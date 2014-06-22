@@ -1,0 +1,45 @@
+
+(* @NESTEDCOMMENTS := 'Yes' *)
+(* @PATH := '' *)
+(* @OBJECTFLAGS := '0, 8' *)
+(* @SYMFILEFLAGS := '2048' *)
+PROGRAM SetOutputs
+VAR
+END_VAR
+(* @END_DECLARATION := '0' *)
+
+(*Аналоговые выходы ПЛК160*)
+AO_0_00 := PLC160AO.UZSpeed[1];
+AO_0_01 := PLC160AO.UZSpeed[2];
+AO_0_02 := PLC160AO.UZSpeed[3];
+AO_0_03 := PLC160AO.Reserved;
+
+(*Дискретные выходы ПЛК160*)
+DO_0_00 := PLC160DO.UZStart[1];
+DO_0_01 := PLC160DO.UZStart[2];
+DO_0_02 := PLC160DO.UZStart[3];
+DO_0_03 := PLC160DO.UZConstSpeed[1];
+DO_0_04 := PLC160DO.UZConstSpeed[2];
+DO_0_05 := PLC160DO.UZConstSpeed[3];
+DO_0_06 := PLC160DO.K15Pump[1];
+DO_0_07 := PLC160DO.K15Pump[2];
+DO_0_08 := PLC160DO.K16Pump[1];
+DO_0_09 := PLC160DO.K16Pump[2];
+DO_0_10 := PLC160DO.K15Alarm;
+DO_0_11 := PLC160DO.K16Alarm;
+
+(*Дискретные выходы МУ110-8Р*)
+DO_1_00 := setMUOutput(MU110DO.K14PumpGroupAlarm);
+DO_1_01 := setMUOutput(MU110DO.Buzzer);
+DO_1_02 := setMUOutput(MU110DO.K14PumpIsOn[1]);
+DO_1_03 := setMUOutput(MU110DO.K14PumpIsOn[2]);
+DO_1_04 := setMUOutput(MU110DO.K14PumpIsOn[3]);
+DO_1_05 := setMUOutput(MU110DO.Reserved[1]);
+DO_1_06 := setMUOutput(MU110DO.Reserved[2]);
+DO_1_07 := setMUOutput(MU110DO.Reserved[3]);
+
+
+
+
+
+END_PROGRAM

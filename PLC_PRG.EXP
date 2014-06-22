@@ -7,5 +7,18 @@ PROGRAM PLC_PRG
 VAR
 END_VAR
 (* @END_DECLARATION := '0' *)
-
+(*
+	3. Управление насосами К14
+	контура отопления и вентиляции
+*)
+fK14PumpsControl(
+	ManualMode						:= NOT(PLC160DI.K14_PumpsModeIsAuto),
+	WorkAllowed						:= TRUE, (*TODO: Выяснить про этот вход*)
+	SummerMode						:= NOT(PLC160DI.K14_PumpsModeIsHeating),
+	TurnOnPump1ButtonPressed	:= NOT(PLC160DI.K14_PumpStop[1]), (*TODO: Выяснить про этот вход*)
+	TurnOffPump1ButtonPressed	:= PLC160DI.K14_PumpStop[1],
+	Pump1EmergencyStopButtonPressed := FALSE,		(*TODO: Выяснить про этот вход*)
+	Pump1State						:= MU110DO.K14PumpIsOn[1],
+	Pump1Faulty						:= ,
+);
 END_PROGRAM

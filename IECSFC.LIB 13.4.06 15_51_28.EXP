@@ -1,5 +1,5 @@
 LIBRARY
-IecSfc.lib 13.4.06 15:51:28
+IECSFC.LIB 13.4.06 15:51:28
 (* @LIBRARYSYMFILEINFO := '0' *)
 NumOfPOUs: 1
 SFCActionControl: 0

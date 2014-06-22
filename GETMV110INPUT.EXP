@@ -1,0 +1,15 @@
+
+(* @NESTEDCOMMENTS := 'Yes' *)
+(* @PATH := '' *)
+(* @OBJECTFLAGS := '0, 8' *)
+(* @SYMFILEFLAGS := '2048' *)
+FUNCTION getMV110Input : BOOL
+VAR_INPUT
+	IN : USINT;
+END_VAR
+VAR
+END_VAR
+(* @END_DECLARATION := '0' *)
+
+getMV110Input := EXTRACT(DI_1, IN);
+END_FUNCTION

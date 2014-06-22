@@ -1,0 +1,30 @@
+
+(* @NESTEDCOMMENTS := 'Yes' *)
+(* @PATH := '' *)
+(* @OBJECTFLAGS := '0, 8' *)
+(* @SYMFILEFLAGS := '2048' *)
+FUNCTION fK14PumpManualControl : BOOL
+VAR_INPUT
+	PumpID : USINT;
+	TurnOn : BOOL;
+	TurnOff : BOOL;
+	State : BOOL;
+	EmergencyStop : BOOL;
+END_VAR
+VAR
+END_VAR
+(* @END_DECLARATION := '0' *)
+IF TurnOn OR State THEN (*Нажата кнопка "Пуск 1 насоса" или Работает 1 насос?*)
+	IF TurnOff THEN (*Нажата кнопка "Стоп 1 насоса"?*)
+		RETURN;
+	ELSE
+		IF EmergencyStop THEN (*Нажат аварийный стоп 1 насоса?*)
+			RETURN;
+		ELSE
+			fTurnOnK14Pump(ID);
+		END_IF;
+	END_IF;
+ELSE
+	RETURN;
+END_IF;
+END_FUNCTION

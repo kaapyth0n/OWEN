@@ -1,0 +1,25 @@
+(* @NESTEDCOMMENTS := 'Yes' *)
+(* @PATH := '' *)
+(* @OBJECTFLAGS := '0, 8' *)
+(*
+	поз. А1
+	Контроллер ПЛК160
+	Аналоговые выходы
+*)
+TYPE strPLC160AO :
+STRUCT
+(*
+	Выходы №1-3
+	Задание частоты для UZ1-3
+	Сигнал 0-10V
+*)
+	UZSpeed : ARRAY [1..MAX_UZ_NUM] OF tUZSpeed;
+
+(*
+	Выход №4
+	Резерв
+*)
+	Reserved : tAnalogOutput;
+END_STRUCT
+END_TYPE
+(* @END_DECLARATION := '0' *)

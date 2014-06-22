@@ -1,0 +1,52 @@
+(* @NESTEDCOMMENTS := 'Yes' *)
+(* @PATH := '' *)
+(* @OBJECTFLAGS := '0, 8' *)
+
+TYPE strPLC160DO :
+(*
+	поз. А1
+	Контроллер ПЛК160
+	Дискретные выходы
+*)
+STRUCT
+	UZStart : ARRAY [1..MAX_UZ_NUM] OF BOOL;
+(*
+	Выходы №1-3
+	Пуск UZ
+*)
+
+	UZConstSpeed : ARRAY [1..MAX_UZ_NUM] OF BOOL;
+(*
+	Выходы №4-6
+	Выбор постоянной скорости UZ (50Гц, 100%)
+*)
+
+	K15Pump : ARRAY [1..2] OF BOOL;
+(*
+	Выходы №7-8
+	Включить/отключить насосы К15.1-2
+*)
+
+	K16Pump : ARRAY [1..2] OF BOOL;
+(*
+	Выходы №9-10
+	Включить/отключить насосы К16.1-2
+*)
+
+	K15Alarm : BOOL;
+(*
+	Выход №11
+	Авария насосной группы К15
+*)
+
+	K16Alarm : BOOL;
+(*
+	Выход №12
+	Авария насосной группы К16
+*)
+
+
+
+END_STRUCT
+END_TYPE
+(* @END_DECLARATION := '0' *)

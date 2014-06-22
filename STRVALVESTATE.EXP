@@ -1,0 +1,11 @@
+(* @NESTEDCOMMENTS := 'Yes' *)
+(* @PATH := '' *)
+(* @OBJECTFLAGS := '0, 8' *)
+(*Состояние 3-х ходового клапана*)
+TYPE strValveState :
+STRUCT
+	Open : BOOL;
+	Close: BOOL;
+END_STRUCT
+END_TYPE
+(* @END_DECLARATION := '0' *)

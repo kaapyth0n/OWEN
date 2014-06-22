@@ -1,0 +1,76 @@
+
+(* @NESTEDCOMMENTS := 'Yes' *)
+(* @PATH := '' *)
+(* @OBJECTFLAGS := '0, 8' *)
+(* @SYMFILEFLAGS := '2048' *)
+PROGRAM GetInputs
+
+(* @END_DECLARATION := '0' *)
+
+(*Дискртеные входы ПЛК160*)
+PLC160DI.K14_PumpsModeIsAuto		:= DI_0_00;
+PLC160DI.K14_PumpsModeIsHeating	:= DI_0_01;
+PLC160DI.K14_PumpStop[1]			:= DI_0_02;
+PLC160DI.K14_PumpStop[2]			:= DI_0_03;
+PLC160DI.K14_PumpStop[3]			:= DI_0_04;
+PLC160DI.K14_NoPressureDrop		:= DI_0_05;
+PLC160DI.UZStatus[1].Ready			:= DI_0_06;
+PLC160DI.UZStatus[1].Running		:= DI_0_07;
+PLC160DI.UZStatus[1].Fail			:= DI_0_08;
+PLC160DI.UZStatus[2].Ready			:= DI_0_09;
+PLC160DI.UZStatus[2].Running		:= DI_0_10;
+PLC160DI.UZStatus[2].Fail			:= DI_0_11;
+PLC160DI.UZStatus[3].Ready			:= DI_0_12;
+PLC160DI.UZStatus[3].Running		:= DI_0_13;
+PLC160DI.UZStatus[3].Fail			:= DI_0_14;
+PLC160DI.Reserved						:= DI_0_15;
+
+(*Аналоговые входы ПЛК160*)
+PLC160AI.UZSignal[1]					:= AI_0_00;
+PLC160AI.UZSignal[2]					:= AI_0_01;
+PLC160AI.UZSignal[3]					:= AI_0_02;
+PLC160AI.DilutionSignal[1]			:= AI_0_03;
+PLC160AI.DilutionSignal[2]			:= AI_0_04;
+PLC160AI.DilutionSignal[3]			:= AI_0_05;
+PLC160AI.Reserved[1]					:= AI_0_06;
+PLC160AI.Reserved[2]					:= AI_0_07;
+
+(*Дискретные входы МВ110-ДН32*)
+MV110DI.K15_StopButton[1]			:= getMV110Input(0);
+MV110DI.K15_StopButton[2]			:= getMV110Input(1);
+MV110DI.K16_StopButton[1]			:= getMV110Input(2);
+MV110DI.K16_StopButton[2]			:= getMV110Input(3);
+MV110DI.K15_NoPressureDrop			:= getMV110Input(4);
+MV110DI.K16_NoPressureDrop			:= getMV110Input(5);
+MV110DI.HeatingDHWPumpGroupModeIsAuto	:= getMV110Input(6);
+MV110DI.DHWPumpGroupModeIsAuto	:= getMV110Input(7);
+MV110DI.CO_Level_I					:= getMV110Input(8);
+MV110DI.CO_Level_II					:= getMV110Input(9);
+MV110DI.CH_Level_I					:= getMV110Input(10);
+MV110DI.CH_Level_II					:= getMV110Input(11);
+MV110DI.FireAlarm						:= getMV110Input(12);
+MV110DI.BoilerGeneralFault			:= getMV110Input(13);
+MV110DI.TurnOnK15AndK16				:= getMV110Input(14);
+MV110DI.K22ValveState.Open			:= getMV110Input(15);
+MV110DI.K22ValveState.Close		:= getMV110Input(16);
+MV110DI.K23ValveState.Open			:= getMV110Input(17);
+MV110DI.K23ValveState.Close		:= getMV110Input(18);
+MV110DI.BoilerAlarm[1]				:= getMV110Input(19);
+MV110DI.BoilerAlarm[2]				:= getMV110Input(20);
+MV110DI.BoilerAlarm[3]				:= getMV110Input(21);
+MV110DI.BlockAllBoilers				:= getMV110Input(22);
+MV110DI.TurnOnAllBoilers			:= getMV110Input(23);
+MV110DI.SignalizationButton		:= getMV110Input(24);
+MV110DI.QFSwitcher[1]				:= getMV110Input(25);
+MV110DI.QFSwitcher[2]				:= getMV110Input(26);
+MV110DI.QFSwitcher[3]				:= getMV110Input(27);
+MV110DI.QFSwitcher[4]				:= getMV110Input(28);
+MV110DI.QFSwitcher[5]				:= getMV110Input(29);
+MV110DI.QFSwitcher[6]				:= getMV110Input(30);
+MV110DI.QFSwitcher[7]				:= getMV110Input(31);
+
+
+
+
+
+END_PROGRAM

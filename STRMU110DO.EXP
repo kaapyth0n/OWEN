@@ -1,0 +1,33 @@
+(* @NESTEDCOMMENTS := 'Yes' *)
+(* @PATH := '' *)
+(* @OBJECTFLAGS := '0, 8' *)
+TYPE strMU110DO :
+STRUCT
+	K14PumpGroupAlarm : BOOL;
+(*
+	Выход №1
+	Авария насосной группы К14
+*)
+
+	Buzzer : BOOL;
+(*
+	Выход №2
+	Зуммер
+*)
+
+	K14PumpIsOn : ARRAY [1..MAX_K14_PUMPS_NUM] OF BOOL;
+(*
+	Выходы №3-5
+	"Насос К14.1-3 в работе"
+*)
+
+	Reserved : ARRAY [1..3] OF BOOL;
+(*
+	Выходы 6-8
+	Резерв
+*)
+
+
+END_STRUCT
+END_TYPE
+(* @END_DECLARATION := '0' *)
