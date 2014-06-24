@@ -1,15 +1,18 @@
 
 (* @NESTEDCOMMENTS := 'Yes' *)
-(* @PATH := '\/K14' *)
+(* @PATH := '\/K15' *)
 (* @OBJECTFLAGS := '0, 8' *)
 (* @SYMFILEFLAGS := '2048' *)
-FUNCTION fTurnOffK14Pump : BOOL
+FUNCTION fSetK15Pump : BOOL
 VAR_INPUT
+	State : BOOL;
 	PumpID : USINT;
 END_VAR
 VAR
 END_VAR
 (* @END_DECLARATION := '0' *)
 
-	fSetK14Pump(FALSE, PumpID);
+
+	PLC160DO.K15Pump[PumpID] := State;
+	(*Включить/Выключить реле насоса*)
 END_FUNCTION

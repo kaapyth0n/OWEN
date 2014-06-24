@@ -1,16 +1,15 @@
 
 (* @NESTEDCOMMENTS := 'Yes' *)
-(* @PATH := '\/K14' *)
+(* @PATH := '\/K15' *)
 (* @OBJECTFLAGS := '0, 8' *)
 (* @SYMFILEFLAGS := '2048' *)
-FUNCTION fK14PumpAutoControl : BOOL
+FUNCTION fK15PumpAutoControl :BOOL
 VAR_INPUT
 	PumpID : USINT;
 	PumpStatusCheckDelay : BOOL;
 	PressureDrop : BOOL;
 	EmergencyPumpStopButtonPressed : BOOL;
 END_VAR
-
 (* @END_DECLARATION := '0' *)
 
 
@@ -19,18 +18,18 @@ IF PumpStatusCheckDelay THEN	(*Прошло две секунды?*)
 		IF EmergencyPumpStopButtonPressed THEN	(*Нажат аварийный стоп насоса?*)
 			RETURN;
 		ELSE
-			fTurnOnK14Pump(PumpID); (*Включить насос*)
+			fTurnOnK15Pump(PumpID); (*Включить насос*)
 			RETURN;
 		END_IF;
 	ELSE
-		K14PumpFaulty[PumpID] := TRUE;	(*Насос неисправен*)
+		K15PumpFaulty[PumpID] := TRUE;	(*Насос неисправен*)
 		RETURN;
 	END_IF;
 ELSE
 	IF EmergencyPumpStopButtonPressed THEN	(*Нажат аварийный стоп насоса?*)
 		RETURN;
 	ELSE
-		fTurnOnK14Pump(PumpID); (*Включить насос*)
+		fTurnOnK15Pump(PumpID); (*Включить насос*)
 		RETURN;
 	END_IF;
 END_IF;

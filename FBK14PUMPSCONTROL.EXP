@@ -1,6 +1,6 @@
 
 (* @NESTEDCOMMENTS := 'Yes' *)
-(* @PATH := '' *)
+(* @PATH := '\/K14' *)
 (* @OBJECTFLAGS := '0, 8' *)
 (* @SYMFILEFLAGS := '2048' *)
 FUNCTION_BLOCK fbK14PumpsControl
@@ -20,9 +20,9 @@ VAR_INPUT
 	WorkAllowed: BOOL;					(*Работа разрешена?*)
 	SummerMode: BOOL;						(*Летний режим?*)
 	TurnOnPumpButtonPressed: ARRAY [1..MAX_K14_PUMPS_NUM] OF BOOL;	(*Нажата кнопка "Пуск насоса"?*)
-	TurnOffPumpButtonPressed: ARRAY [1..MAX_K14_PUMPS_NUM] OF BOOL;	(*Нажата кнопка "Стоп 1 насоса"?*)
-	EmergencyPumpStopButtonPressed: ARRAY [1..MAX_K14_PUMPS_NUM] OF BOOL; (*Нажат аварийный стоп 1 насоса?*)
-	PumpState: ARRAY [1..MAX_K14_PUMPS_NUM] OF BOOL;	(*Работает 1 насос?*)
+	TurnOffPumpButtonPressed: ARRAY [1..MAX_K14_PUMPS_NUM] OF BOOL;	(*Нажата кнопка "Стоп насоса"?*)
+	EmergencyPumpStopButtonPressed: ARRAY [1..MAX_K14_PUMPS_NUM] OF BOOL; (*Нажат аварийный стоп насоса?*)
+	PumpState: ARRAY [1..MAX_K14_PUMPS_NUM] OF BOOL;	(*Работает насос?*)
 	PressureDrop : BOOL;					(*Есть разница давлений?*)
 END_VAR
 VAR

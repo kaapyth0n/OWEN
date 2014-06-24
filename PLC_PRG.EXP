@@ -6,15 +6,26 @@
 PROGRAM PLC_PRG
 VAR
 	K14PumpsControl : fbK14PumpsControl;
-
+	K15PumpsControl : fbK15PumpsControl;
+	K16PumpsControl : fbK16PumpsControl;
 END_VAR
 
 VAR_TEMP
 	i: USINT;
-	turnOnPumpButtonPressed : ARRAY [1..MAX_K14_PUMPS_NUM] OF BOOL;
-	turnOffPumpButtonPressed : ARRAY [1..MAX_K14_PUMPS_NUM] OF BOOL;
-	emergencyPumpStopButtonPressed : ARRAY [1..MAX_K14_PUMPS_NUM] OF BOOL;
-	pumpState : ARRAY [1..MAX_K14_PUMPS_NUM] OF BOOL;
+	turnOnK14PumpButtonPressed : ARRAY [1..MAX_K14_PUMPS_NUM] OF BOOL;
+	turnOffK14PumpButtonPressed : ARRAY [1..MAX_K14_PUMPS_NUM] OF BOOL;
+	emergencyK14PumpStopButtonPressed : ARRAY [1..MAX_K14_PUMPS_NUM] OF BOOL;
+	K14PumpState : ARRAY [1..MAX_K14_PUMPS_NUM] OF BOOL;
+
+	turnOnK16PumpButtonPressed : ARRAY [1..MAX_K16_PUMPS_NUM] OF BOOL;
+	turnOffK16PumpButtonPressed : ARRAY [1..MAX_K16_PUMPS_NUM] OF BOOL;
+	emergencyK16PumpStopButtonPressed : ARRAY [1..MAX_K16_PUMPS_NUM] OF BOOL;
+	K16PumpState : ARRAY [1..MAX_K16_PUMPS_NUM] OF BOOL;
+
+	turnOnK15PumpButtonPressed : ARRAY [1..MAX_K15_PUMPS_NUM] OF BOOL;
+	turnOffK15PumpButtonPressed : ARRAY [1..MAX_K15_PUMPS_NUM] OF BOOL;
+	emergencyK15PumpStopButtonPressed : ARRAY [1..MAX_K15_PUMPS_NUM] OF BOOL;
+	K15PumpState : ARRAY [1..MAX_K15_PUMPS_NUM] OF BOOL;
 END_VAR
 (* @END_DECLARATION := '0' *)
 (*
@@ -22,21 +33,62 @@ END_VAR
 	контура отопления и вентиляции
 *)
 FOR i := 1 TO MAX_K14_PUMPS_NUM DO
-	turnOnPumpButtonPressed[i] := NOT(PLC160DI.K14_PumpStop[i]);
-	turnOffPumpButtonPressed[i] := PLC160DI.K14_PumpStop[i];
-	emergencyPumpStopButtonPressed[i] := FALSE;
-	pumpState[i] := MU110DO.K14PumpIsOn[i];
+	turnOnK14PumpButtonPressed[i] := NOT(PLC160DI.K14_PumpStop[i]);
+	turnOffK14PumpButtonPressed[i] := PLC160DI.K14_PumpStop[i];
+	emergencyK14PumpStopButtonPressed[i] := FALSE;
+	K14PumpState[i] := MU110DO.K14PumpIsOn[i];
 END_FOR;
-
 
 K14PumpsControl(
 	ManualMode						:= NOT(PLC160DI.K14_PumpsModeIsAuto),
 	WorkAllowed						:= TRUE, (*TODO: Выяснить про этот вход*)
 	SummerMode						:= NOT(PLC160DI.K14_PumpsModeIsHeating),
-	TurnOnPumpButtonPressed		:= turnOnPumpButtonPressed, (*TODO: Выяснить про этот вход*)
-	TurnOffPumpButtonPressed	:= turnOffPumpButtonPressed,
-	EmergencyPumpStopButtonPressed := emergencyPumpStopButtonPressed,		(*TODO: Выяснить про этот вход*)
-	PumpState						:= pumpState,
+	TurnOnPumpButtonPressed		:= turnOnK14PumpButtonPressed, (*TODO: Выяснить про этот вход*)
+	TurnOffPumpButtonPressed	:= turnOffK14PumpButtonPressed,
+	EmergencyPumpStopButtonPressed := emergencyK14PumpStopButtonPressed,		(*TODO: Выяснить про этот вход*)
+	PumpState						:= K14PumpState,
 	PressureDrop					:= NOT(PLC160DI.K14_NoPressureDrop)
+);
+
+(*
+	6. Управление насосами К15
+	греющего контура ГВС
+*)
+FOR i := 1 TO MAX_K15_PUMPS_NUM DO
+	turnOnK15PumpButtonPressed[i] := NOT(MV110DI.K15_StopButton[i]);
+	turnOffK15PumpButtonPressed[i] := MV110DI.K15_StopButton[i];
+	emergencyK15PumpStopButtonPressed[i] := FALSE;
+	K15PumpState[i] := PLC160DO.K15Pump[i];
+END_FOR;
+
+K15PumpsControl(
+	ManualMode						:= NOT(MV110DI.HeatingDHWPumpGroupModeIsAuto),
+	WorkAllowed						:= TRUE, (*TODO: Выяснить про этот вход*)
+	TurnOnPumpButtonPressed		:= turnOnK15PumpButtonPressed, (*TODO: Выяснить про этот вход*)
+	TurnOffPumpButtonPressed	:= turnOffK15PumpButtonPressed,
+	EmergencyPumpStopButtonPressed := emergencyK15PumpStopButtonPressed,		(*TODO: Выяснить про этот вход*)
+	PumpState						:= K15PumpState,
+	PressureDrop					:= NOT(MV110DI.K15_NoPressureDrop)
+);
+
+(*
+	5. Управление насосами К16
+	контура ГВС
+*)
+FOR i := 1 TO MAX_K16_PUMPS_NUM DO
+	turnOnK16PumpButtonPressed[i] := NOT(MV110DI.K16_StopButton[i]);
+	turnOffK16PumpButtonPressed[i] := MV110DI.K16_StopButton[i];
+	emergencyK16PumpStopButtonPressed[i] := FALSE;
+	K16PumpState[i] := PLC160DO.K16Pump[i];
+END_FOR;
+
+K16PumpsControl(
+	ManualMode						:= NOT(MV110DI.DHWPumpGroupModeIsAuto),
+	WorkAllowed						:= TRUE, (*TODO: Выяснить про этот вход*)
+	TurnOnPumpButtonPressed		:= turnOnK16PumpButtonPressed, (*TODO: Выяснить про этот вход*)
+	TurnOffPumpButtonPressed	:= turnOffK16PumpButtonPressed,
+	EmergencyPumpStopButtonPressed := emergencyK16PumpStopButtonPressed,		(*TODO: Выяснить про этот вход*)
+	PumpState						:= K16PumpState,
+	PressureDrop					:= NOT(MV110DI.K16_NoPressureDrop)
 );
 END_PROGRAM

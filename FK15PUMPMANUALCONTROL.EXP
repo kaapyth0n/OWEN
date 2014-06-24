@@ -1,9 +1,9 @@
 
 (* @NESTEDCOMMENTS := 'Yes' *)
-(* @PATH := '\/K14' *)
+(* @PATH := '\/K15' *)
 (* @OBJECTFLAGS := '0, 8' *)
 (* @SYMFILEFLAGS := '2048' *)
-FUNCTION fK14PumpManualControl : BOOL
+FUNCTION fK15PumpManualControl : BOOL
 VAR_INPUT
 	PumpID : USINT;
 	TurnOn : BOOL;
@@ -21,7 +21,7 @@ IF TurnOn OR State THEN (*Нажата кнопка "Пуск насоса" или Работает насос?*)
 		IF EmergencyStop THEN (*Нажат аварийный стоп насоса?*)
 			RETURN;
 		ELSE
-			fTurnOnK14Pump(PumpID);
+			fTurnOnK15Pump(PumpID);
 		END_IF;
 	END_IF;
 ELSE

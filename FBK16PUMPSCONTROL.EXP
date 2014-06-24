@@ -1,0 +1,68 @@
+
+(* @NESTEDCOMMENTS := 'Yes' *)
+(* @PATH := '\/K16' *)
+(* @OBJECTFLAGS := '0, 8' *)
+(* @SYMFILEFLAGS := '2048' *)
+FUNCTION_BLOCK fbK16PumpsControl
+(*
+	Управление насосами К16
+	контура ГВС
+*)
+VAR CONSTANT
+	PumpCheckDelayTime : TIME := T#2s;
+	PumpWorkHeatingOrder : ARRAY [1..MAX_K16_PUMPS_NUM] OF USINT := 1, 2;
+END_VAR
+VAR_INPUT
+	ManualMode: BOOL;						(*Ручной режим?*)
+	WorkAllowed: BOOL;					(*Работа разрешена?*)
+	TurnOnPumpButtonPressed: ARRAY [1..MAX_K16_PUMPS_NUM] OF BOOL;	(*Нажата кнопка "Пуск насоса"?*)
+	TurnOffPumpButtonPressed: ARRAY [1..MAX_K16_PUMPS_NUM] OF BOOL;	(*Нажата кнопка "Стоп насоса"?*)
+	EmergencyPumpStopButtonPressed: ARRAY [1..MAX_K16_PUMPS_NUM] OF BOOL; (*Нажат аварийный стоп насоса?*)
+	PumpState: ARRAY [1..MAX_K16_PUMPS_NUM] OF BOOL;	(*Работает насос?*)
+	PressureDrop : BOOL;					(*Есть разница давлений?*)
+END_VAR
+VAR_OUTPUT
+END_VAR
+VAR
+	pumpStatusCheckDelay	: ARRAY [1..MAX_K16_PUMPS_NUM] OF TON;
+END_VAR
+
+VAR_TEMP
+	i : USINT;
+	pumpWorkOrder : ARRAY [1..MAX_K16_PUMPS_NUM] OF USINT;
+END_VAR
+(* @END_DECLARATION := '0' *)
+
+FOR i := 1 TO MAX_K16_PUMPS_NUM DO
+	pumpStatusCheckDelay[i](IN := PumpState[i], PT := PumpCheckDelayTime);
+END_FOR;
+
+IF ManualMode THEN (*Ручной режим?*)
+	FOR i := 1 TO MAX_K16_PUMPS_NUM DO
+		fK16PumpManualControl(
+			PumpID	:= i,
+			TurnOn	:= TurnOnPumpButtonPressed[i],
+			TurnOff	:= TurnOffPumpButtonPressed[i],
+			State		:= PumpState[i],
+			EmergencyStop := EmergencyPumpStopButtonPressed[i]
+		);
+	END_FOR;
+ELSE
+	IF WorkAllowed THEN	(*Работа разрешена?*)
+		pumpWorkOrder := PumpWorkHeatingOrder;
+		FOR i := 1 TO MAX_K16_PUMPS_NUM DO
+			IF NOT(K16PumpFaulty[pumpWorkOrder[i]]) THEN	(*работаем с насосами в порядке их приоритета*)
+				fK16PumpAutoControl(
+						PumpID := pumpWorkOrder[i],
+						PumpStatusCheckDelay := pumpStatusCheckDelay[pumpWorkOrder[i]].Q,
+						PressureDrop := PressureDrop,
+						EmergencyPumpStopButtonPressed := EmergencyPumpStopButtonPressed[pumpWorkOrder[i]]
+				);
+				RETURN;
+			END_IF;
+		END_FOR;
+	ELSE
+		RETURN;
+	END_IF;
+END_IF;
+END_FUNCTION_BLOCK

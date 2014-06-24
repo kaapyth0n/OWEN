@@ -1,15 +1,13 @@
 
 (* @NESTEDCOMMENTS := 'Yes' *)
-(* @PATH := '\/K14' *)
+(* @PATH := '\/K16' *)
 (* @OBJECTFLAGS := '0, 8' *)
 (* @SYMFILEFLAGS := '2048' *)
-FUNCTION fTurnOffK14Pump : BOOL
+FUNCTION fTurnOnK16Pump : BOOL
 VAR_INPUT
 	PumpID : USINT;
 END_VAR
-VAR
-END_VAR
 (* @END_DECLARATION := '0' *)
 
-	fSetK14Pump(FALSE, PumpID);
+fSetK16Pump(TRUE, PumpID);
 END_FUNCTION
