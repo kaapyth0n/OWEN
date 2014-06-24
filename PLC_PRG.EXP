@@ -6,20 +6,37 @@
 PROGRAM PLC_PRG
 VAR
 	K14PumpsControl : fbK14PumpsControl;
+
+END_VAR
+
+VAR_TEMP
+	i: USINT;
+	turnOnPumpButtonPressed : ARRAY [1..MAX_K14_PUMPS_NUM] OF BOOL;
+	turnOffPumpButtonPressed : ARRAY [1..MAX_K14_PUMPS_NUM] OF BOOL;
+	emergencyPumpStopButtonPressed : ARRAY [1..MAX_K14_PUMPS_NUM] OF BOOL;
+	pumpState : ARRAY [1..MAX_K14_PUMPS_NUM] OF BOOL;
 END_VAR
 (* @END_DECLARATION := '0' *)
 (*
 	3. Управление насосами К14
 	контура отопления и вентиляции
 *)
+FOR i := 1 TO MAX_K14_PUMPS_NUM DO
+	turnOnPumpButtonPressed[i] := NOT(PLC160DI.K14_PumpStop[i]);
+	turnOffPumpButtonPressed[i] := PLC160DI.K14_PumpStop[i];
+	emergencyPumpStopButtonPressed[i] := FALSE;
+	pumpState[i] := MU110DO.K14PumpIsOn[i];
+END_FOR;
+
+
 K14PumpsControl(
 	ManualMode						:= NOT(PLC160DI.K14_PumpsModeIsAuto),
 	WorkAllowed						:= TRUE, (*TODO: Выяснить про этот вход*)
 	SummerMode						:= NOT(PLC160DI.K14_PumpsModeIsHeating),
-	TurnOnPump1ButtonPressed	:= NOT(PLC160DI.K14_PumpStop[1]), (*TODO: Выяснить про этот вход*)
-	TurnOffPump1ButtonPressed	:= PLC160DI.K14_PumpStop[1],
-	Pump1EmergencyStopButtonPressed := FALSE,		(*TODO: Выяснить про этот вход*)
-	Pump1State						:= MU110DO.K14PumpIsOn[1],
-
+	TurnOnPumpButtonPressed		:= turnOnPumpButtonPressed, (*TODO: Выяснить про этот вход*)
+	TurnOffPumpButtonPressed	:= turnOffPumpButtonPressed,
+	EmergencyPumpStopButtonPressed := emergencyPumpStopButtonPressed,		(*TODO: Выяснить про этот вход*)
+	PumpState						:= pumpState,
+	PressureDrop					:= NOT(PLC160DI.K14_NoPressureDrop)
 );
 END_PROGRAM

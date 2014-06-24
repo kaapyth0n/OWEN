@@ -8,86 +8,65 @@ FUNCTION_BLOCK fbK14PumpsControl
 	3. Управление насосами К14
 	контура отопления и вентиляции
 *)
+VAR CONSTANT
+	PumpCheckDelayTime : TIME := T#2s;
+	PumpWorkSummerOrder : ARRAY [1..MAX_K14_PUMPS_NUM] OF USINT := 3, 1, 2;
+	PumpWorkHeatingOrder : ARRAY [1..MAX_K14_PUMPS_NUM] OF USINT := 1, 2, 3;
+END_VAR
+
+
 VAR_INPUT
 	ManualMode: BOOL;						(*Ручной режим?*)
 	WorkAllowed: BOOL;					(*Работа разрешена?*)
 	SummerMode: BOOL;						(*Летний режим?*)
-	TurnOnPump1ButtonPressed: BOOL;	(*Нажата кнопка "Пуск 1 насоса"?*)
-	TurnOffPump1ButtonPressed: BOOL;	(*Нажата кнопка "Стоп 1 насоса"?*)
-	Pump1EmergencyStopButtonPressed: BOOL; (*Нажат аварийный стоп 1 насоса?*)
-	Pump1State: BOOL;						(*Работает 1 насос?*)
-	TurnOnPump2ButtonPressed: BOOL;	(*Нажата кнопка "Пуск 2 насоса"?*)
-	TurnOffPump2ButtonPressed: BOOL;	(*Нажата кнопка "Стоп 2 насоса"?*)
-	Pump2EmergencyStopButtonPressed: BOOL; (*Нажат аварийный стоп 2 насоса?*)
-	Pump2State: BOOL;						(*Работает 2 насос?*)
-	TurnOnPump3ButtonPressed: BOOL;	(*Нажата кнопка "Пуск 3 насоса"?*)
-	TurnOffPump3ButtonPressed: BOOL;	(*Нажата кнопка "Стоп 3 насоса"?*)
-	Pump3EmergencyStopButtonPressed: BOOL; (*Нажат аварийный стоп 3 насоса?*)
-	Pump3State: BOOL;						(*Работает 3 насос?*)
+	TurnOnPumpButtonPressed: ARRAY [1..MAX_K14_PUMPS_NUM] OF BOOL;	(*Нажата кнопка "Пуск насоса"?*)
+	TurnOffPumpButtonPressed: ARRAY [1..MAX_K14_PUMPS_NUM] OF BOOL;	(*Нажата кнопка "Стоп 1 насоса"?*)
+	EmergencyPumpStopButtonPressed: ARRAY [1..MAX_K14_PUMPS_NUM] OF BOOL; (*Нажат аварийный стоп 1 насоса?*)
+	PumpState: ARRAY [1..MAX_K14_PUMPS_NUM] OF BOOL;	(*Работает 1 насос?*)
 	PressureDrop : BOOL;					(*Есть разница давлений?*)
 END_VAR
 VAR
+	pumpStatusCheckDelay	: ARRAY [1..MAX_K14_PUMPS_NUM] OF TON;
+END_VAR
+VAR_TEMP
+	i: USINT;
+	pumpWorkOrder : ARRAY [1..MAX_K14_PUMPS_NUM] OF USINT;
 END_VAR
 (* @END_DECLARATION := '0' *)
 
+FOR i := 1 TO MAX_K14_PUMPS_NUM DO
+	pumpStatusCheckDelay[i](IN := PumpState[i], PT := PumpCheckDelayTime);
+END_FOR;
+
 IF ManualMode THEN (*Ручной режим?*)
-	fK14PumpManualControl(
-		PumpID	:= 1,
-		TurnOn	:= TurnOnPump1ButtonPressed,
-		TurnOff	:= TurnOffPump1ButtonPressed,
-		State		:= Pump1State,
-		EmergencyStop := Pump1EmergencyStopButtonPressed
-	);
-
-	fK14PumpManualControl(
-		PumpID	:= 2,
-		TurnOn	:= TurnOnPump2ButtonPressed,
-		TurnOff	:= TurnOffPump2ButtonPressed,
-		State		:= Pump2State,
-		EmergencyStop := Pump2EmergencyStopButtonPressed
-	);
-
-	fK14PumpManualControl(
-		PumpID	:= 3,
-		TurnOn	:= TurnOnPump3ButtonPressed,
-		TurnOff	:= TurnOffPump3ButtonPressed,
-		State		:= Pump3State,
-		EmergencyStop := Pump3EmergencyStopButtonPressed
-	);
-
+	FOR i := 1 TO MAX_K14_PUMPS_NUM DO
+		fK14PumpManualControl(
+			PumpID	:= i,
+			TurnOn	:= TurnOnPumpButtonPressed[i],
+			TurnOff	:= TurnOffPumpButtonPressed[i],
+			State		:= PumpState[i],
+			EmergencyStop := EmergencyPumpStopButtonPressed[i]
+		);
+	END_FOR;
 ELSE
 	IF WorkAllowed THEN	(*Работа разрешена?*)
 		IF SummerMode THEN	(*Летний режим?*)
-			IF K14PumpFaulty[3] THEN	(*Неисправен насос 3*)
-				IF K14PumpFaulty[1] THEN	(*Неисправен насос 1*)
-					IF K14PumpFaulty[2] THEN	(*Неисправен насос 2*)
-						RETURN;
-					ELSE
-						IF fPump2StartTimeout() THEN	(*Прошло две секунды?*)
-							IF PressureDrop THEN			(*Есть перепад давления?*)
-								IF Pump2EmergencyStopButtonPressed THEN	(*Нажат аварийный стоп 2 насоса?*)
-									RETURN;
-								ELSE
-									fTurnOnK14Pump(2); (*Включить насос 2*)
-									RETURN;
-								END_IF;
-							ELSE
-
-							END_IF;
-						ELSE
-
-						END_IF;
-					END_IF;
-				ELSE
-
-				END_IF;
-			ELSE
-
-			END_IF;
+			pumpWorkOrder := PumpWorkSummerOrder;
 		ELSE
-
+			pumpWorkOrder := PumpWorkHeatingOrder;
 		END_IF;
 
+		FOR i := 1 TO MAX_K14_PUMPS_NUM DO
+			IF NOT(K14PumpFaulty[pumpWorkOrder[i]]) THEN	(*работаем с насосами в порядке их приоритета*)
+				fK14PumpAutoControl(
+						PumpID := pumpWorkOrder[i],
+						PumpStatusCheckDelay := pumpStatusCheckDelay[pumpWorkOrder[i]].Q,
+						PressureDrop := PressureDrop,
+						EmergencyPumpStopButtonPressed := EmergencyPumpStopButtonPressed[pumpWorkOrder[i]]
+				);
+				RETURN;
+			END_IF;
+		END_FOR;
 	ELSE
 		RETURN;
 	END_IF;
