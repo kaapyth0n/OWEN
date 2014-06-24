@@ -1,0 +1,37 @@
+
+(* @NESTEDCOMMENTS := 'Yes' *)
+(* @PATH := '' *)
+(* @OBJECTFLAGS := '0, 8' *)
+(* @SYMFILEFLAGS := '2048' *)
+FUNCTION fK14PumpAutoControl : BOOL
+VAR_INPUT
+	PumpID : USINT;
+	PumpStatusCheckDelay : BOOL;
+	PressureDrop : BOOL;
+	EmergencyPumpStopButtonPressed : BOOL;
+END_VAR
+
+(* @END_DECLARATION := '0' *)
+
+
+IF PumpStatusCheckDelay THEN	(*Прошло две секунды?*)
+	IF PressureDrop THEN			(*Есть перепад давления?*)
+		IF EmergencyPumpStopButtonPressed THEN	(*Нажат аварийный стоп 2 насоса?*)
+			RETURN;
+		ELSE
+			fTurnOnK14Pump(PumpID); (*Включить насос 2*)
+			RETURN;
+		END_IF;
+	ELSE
+		K14PumpFaulty[PumpID] := TRUE;
+		RETURN;
+	END_IF;
+ELSE
+	IF EmergencyPumpStopButtonPressed THEN	(*Нажат аварийный стоп 2 насоса?*)
+		RETURN;
+	ELSE
+		fTurnOnK14Pump(PumpID); (*Включить насос 2*)
+		RETURN;
+	END_IF;
+END_IF;
+END_FUNCTION
