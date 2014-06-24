@@ -5,13 +5,14 @@
 (* @SYMFILEFLAGS := '2048' *)
 PROGRAM PLC_PRG
 VAR
+	K14PumpsControl : fbK14PumpsControl;
 END_VAR
 (* @END_DECLARATION := '0' *)
 (*
 	3. Управление насосами К14
 	контура отопления и вентиляции
 *)
-fK14PumpsControl(
+K14PumpsControl(
 	ManualMode						:= NOT(PLC160DI.K14_PumpsModeIsAuto),
 	WorkAllowed						:= TRUE, (*TODO: Выяснить про этот вход*)
 	SummerMode						:= NOT(PLC160DI.K14_PumpsModeIsHeating),

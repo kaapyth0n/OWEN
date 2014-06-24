@@ -3,8 +3,7 @@
 (* @PATH := '' *)
 (* @OBJECTFLAGS := '0, 8' *)
 (* @SYMFILEFLAGS := '2048' *)
-
-FUNCTION fK14PumpsControl : BOOL
+FUNCTION_BLOCK fbK14PumpsControl
 (*
 	3. Управление насосами К14
 	контура отопления и вентиляции
@@ -93,4 +92,4 @@ ELSE
 		RETURN;
 	END_IF;
 END_IF;
-END_FUNCTION
+END_FUNCTION_BLOCK
