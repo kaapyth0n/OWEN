@@ -1,6 +1,6 @@
 
 (* @NESTEDCOMMENTS := 'Yes' *)
-(* @PATH := '\/New Folder' *)
+(* @PATH := '\/IO' *)
 (* @OBJECTFLAGS := '0, 8' *)
 (* @SYMFILEFLAGS := '2048' *)
 PROGRAM SetOutputs

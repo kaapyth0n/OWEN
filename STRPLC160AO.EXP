@@ -22,4 +22,6 @@ STRUCT
 	Reserved : tAnalogOutput;
 END_STRUCT
 END_TYPE
+
+
 (* @END_DECLARATION := '0' *)

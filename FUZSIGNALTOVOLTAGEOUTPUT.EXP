@@ -1,0 +1,21 @@
+
+(* @NESTEDCOMMENTS := 'Yes' *)
+(* @PATH := '' *)
+(* @OBJECTFLAGS := '0, 8' *)
+(* @SYMFILEFLAGS := '2048' *)
+FUNCTION fUZSignalToVoltageOutput : REAL
+(*
+	‘ункци€ преобразовани€ входного токового
+	сигнала с устройств UZ в выходное управл€ющее
+	напр€жение на насос
+*)
+VAR_INPUT
+	IN : tUZSignal; (*¬ход€щий ток 0-20мј*)
+END_VAR
+VAR
+END_VAR
+(* @END_DECLARATION := '0' *)
+
+(*TODO: написать корректную функцию преобразовани€ тока в напр€жение*)
+fUZSignalToVoltageOutput := IN;
+END_FUNCTION

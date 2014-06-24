@@ -1,18 +1,15 @@
 
 (* @NESTEDCOMMENTS := 'Yes' *)
-(* @PATH := '\/IO' *)
+(* @PATH := '' *)
 (* @OBJECTFLAGS := '0, 8' *)
 (* @SYMFILEFLAGS := '2048' *)
-FUNCTION setMUOutput : REAL
+FUNCTION fTurnOffK14Pump : BOOL
 VAR_INPUT
-	IN : BOOL;
+	PumpID : USINT;
 END_VAR
 VAR
 END_VAR
 (* @END_DECLARATION := '0' *)
-IF IN THEN
-	setMUOutput := 1.0;
-ELSE
-	setMUOutput := 0.0;
-END_IF;
+
+	fSetK14Pump(FALSE, PumpID);
 END_FUNCTION
