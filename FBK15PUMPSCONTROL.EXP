@@ -30,12 +30,20 @@ END_VAR
 VAR_TEMP
 	i : USINT;
 	pumpWorkOrder : ARRAY [1..MAX_K15_PUMPS_NUM] OF USINT;
+	pumpStatusCheck : ARRAY [1..MAX_K15_PUMPS_NUM] OF BOOL;
 END_VAR
 (* @END_DECLARATION := '0' *)
 
 FOR i := 1 TO MAX_K15_PUMPS_NUM DO
 	pumpStatusCheckDelay[i](IN := PumpState[i], PT := PumpCheckDelayTime);
+	pumpStatusCheck[i] := pumpStatusCheckDelay[i].Q;
 END_FOR;
+
+fK15PumpsFaultyControl(
+	PumpState				:= PumpState,
+	PumpStatusCheckDelay	:= pumpStatusCheck,
+	PressureDrop			:= PressureDrop
+);
 
 IF ManualMode THEN (*–учной режим?*)
 	FOR i := 1 TO MAX_K15_PUMPS_NUM DO
@@ -51,11 +59,13 @@ ELSE
 	IF WorkAllowed THEN	(*–абота разрешена?*)
 		pumpWorkOrder := PumpWorkHeatingOrder;
 		FOR i := 1 TO MAX_K15_PUMPS_NUM DO
-			IF NOT(K15PumpFaulty[pumpWorkOrder[i]]) THEN	(*работаем с насосами в пор€дке их приоритета*)
+			(*
+				работаем с насосами в пор€дке их приоритета
+				»щем первый исправный насос и включаем его
+			*)
+			IF NOT(K15PumpFaulty[pumpWorkOrder[i]]) THEN
 				fK15PumpAutoControl(
 						PumpID := pumpWorkOrder[i],
-						PumpStatusCheckDelay := pumpStatusCheckDelay[pumpWorkOrder[i]].Q,
-						PressureDrop := PressureDrop,
 						EmergencyPumpStopButtonPressed := EmergencyPumpStopButtonPressed[pumpWorkOrder[i]]
 				);
 				RETURN;

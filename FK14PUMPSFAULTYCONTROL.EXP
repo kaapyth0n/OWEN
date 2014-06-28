@@ -1,0 +1,53 @@
+
+(* @NESTEDCOMMENTS := 'Yes' *)
+(* @PATH := '\/K14' *)
+(* @OBJECTFLAGS := '0, 8' *)
+(* @SYMFILEFLAGS := '2048' *)
+FUNCTION fK14PumpsFaultyControl : BOOL
+(* ѕроверка состо€ни€ насосов*)
+VAR_INPUT
+	PumpState : ARRAY [1..MAX_K14_PUMPS_NUM] OF BOOL;
+	PumpStatusCheckDelay : ARRAY [1..MAX_K14_PUMPS_NUM] OF BOOL;
+	PressureDrop : BOOL;
+END_VAR
+VAR
+	i : USINT;
+	activePumpID : USINT; (*номер работающего насоса*)
+END_VAR
+(* @END_DECLARATION := '0' *)
+
+activePumpID := 0;
+
+FOR i := 1 TO MAX_K14_PUMPS_NUM DO
+	IF PumpState[i] THEN
+		IF activePumpID <> 0 THEN
+			(*
+				¬ключено больше одного насоса -
+				ничего не можем сказать об их исправности
+			*)
+			RETURN;
+		END_IF;
+		activePumpID := i;
+	END_IF;
+END_FOR;
+
+IF activePumpID = 0 THEN
+	(*
+		Ќе включен ни один насос - 
+		ничего не можем сказать об их исправности
+	*)
+	RETURN;
+END_IF;
+
+IF PumpStatusCheckDelay[activePumpID] THEN
+	(*
+		ќпредел€ем исправность насоса
+		по перепаду давлени€
+	*)
+	K14PumpFaulty[activePumpID] := NOT(PressureDrop);
+END_IF;
+
+
+
+
+END_FUNCTION

@@ -6,31 +6,19 @@
 FUNCTION fK15PumpAutoControl :BOOL
 VAR_INPUT
 	PumpID : USINT;
-	PumpStatusCheckDelay : BOOL;
-	PressureDrop : BOOL;
 	EmergencyPumpStopButtonPressed : BOOL;
 END_VAR
 (* @END_DECLARATION := '0' *)
 
 
-IF PumpStatusCheckDelay THEN	(*Прошло две секунды?*)
-	IF PressureDrop THEN			(*Есть перепад давления?*)
-		IF EmergencyPumpStopButtonPressed THEN	(*Нажат аварийный стоп насоса?*)
-			RETURN;
-		ELSE
-			fTurnOnK15Pump(PumpID); (*Включить насос*)
-			RETURN;
-		END_IF;
-	ELSE
-		K15PumpFaulty[PumpID] := TRUE;	(*Насос неисправен*)
-		RETURN;
-	END_IF;
+IF EmergencyPumpStopButtonPressed THEN	(*Нажат аварийный стоп насоса?*)
+	fTurnOffK15Pump(PumpID); (*Выключить насос*)
+	RETURN;
+END_IF;
+
+IF K15PumpFaulty[PumpID] THEN
+	fTurnOffK15Pump(PumpID); (*Выключить насос*)
 ELSE
-	IF EmergencyPumpStopButtonPressed THEN	(*Нажат аварийный стоп насоса?*)
-		RETURN;
-	ELSE
-		fTurnOnK15Pump(PumpID); (*Включить насос*)
-		RETURN;
-	END_IF;
+	fTurnOnK15Pump(PumpID); (*Включить насос*)
 END_IF;
 END_FUNCTION

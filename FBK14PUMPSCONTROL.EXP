@@ -31,13 +31,23 @@ END_VAR
 VAR_TEMP
 	i: USINT;
 	pumpWorkOrder : ARRAY [1..MAX_K14_PUMPS_NUM] OF USINT;
+	pumpStatusCheck : ARRAY [1..MAX_K14_PUMPS_NUM] OF BOOL;
 END_VAR
 (* @END_DECLARATION := '0' *)
 
+(*Проверяем исправность насосов К14*)
 FOR i := 1 TO MAX_K14_PUMPS_NUM DO
 	pumpStatusCheckDelay[i](IN := PumpState[i], PT := PumpCheckDelayTime);
+	pumpStatusCheck[i] := pumpStatusCheckDelay[i].Q;
 END_FOR;
 
+fK14PumpsFaultyControl(
+	PumpState				:= PumpState,
+	PumpStatusCheckDelay	:= pumpStatusCheck,
+	PressureDrop			:= PressureDrop
+);
+
+(*Управление насосами К14*)
 IF ManualMode THEN (*Ручной режим?*)
 	FOR i := 1 TO MAX_K14_PUMPS_NUM DO
 		fK14PumpManualControl(
@@ -57,11 +67,13 @@ ELSE
 		END_IF;
 
 		FOR i := 1 TO MAX_K14_PUMPS_NUM DO
-			IF NOT(K14PumpFaulty[pumpWorkOrder[i]]) THEN	(*работаем с насосами в порядке их приоритета*)
+			(*
+				работаем с насосами в порядке их приоритета
+				Ищем первый исправный насос и включаем его
+			*)
+			IF NOT(K14PumpFaulty[pumpWorkOrder[i]]) THEN
 				fK14PumpAutoControl(
 						PumpID := pumpWorkOrder[i],
-						PumpStatusCheckDelay := pumpStatusCheckDelay[pumpWorkOrder[i]].Q,
-						PressureDrop := PressureDrop,
 						EmergencyPumpStopButtonPressed := EmergencyPumpStopButtonPressed[pumpWorkOrder[i]]
 				);
 				RETURN;

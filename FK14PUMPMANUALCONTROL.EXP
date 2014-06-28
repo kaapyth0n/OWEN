@@ -16,12 +16,15 @@ END_VAR
 (* @END_DECLARATION := '0' *)
 IF TurnOn OR State THEN (*Нажата кнопка "Пуск насоса" или Работает насос?*)
 	IF TurnOff THEN (*Нажата кнопка "Стоп насоса"?*)
+		fTurnOffK14Pump(PumpID);
 		RETURN;
 	ELSE
 		IF EmergencyStop THEN (*Нажат аварийный стоп насоса?*)
+			fTurnOffK14Pump(PumpID);
 			RETURN;
 		ELSE
 			fTurnOnK14Pump(PumpID);
+			RETURN;
 		END_IF;
 	END_IF;
 ELSE
