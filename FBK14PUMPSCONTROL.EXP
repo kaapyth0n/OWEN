@@ -10,10 +10,7 @@ FUNCTION_BLOCK fbK14PumpsControl
 *)
 VAR CONSTANT
 	PumpCheckDelayTime : TIME := T#2s;
-	PumpWorkSummerOrder : ARRAY [1..MAX_K14_PUMPS_NUM] OF USINT := 3, 1, 2;
-	PumpWorkHeatingOrder : ARRAY [1..MAX_K14_PUMPS_NUM] OF USINT := 1, 2, 3;
 END_VAR
-
 
 VAR_INPUT
 	ManualMode: BOOL;						(*Ручной режим?*)
@@ -27,6 +24,7 @@ VAR_INPUT
 END_VAR
 VAR
 	pumpStatusCheckDelay	: ARRAY [1..MAX_K14_PUMPS_NUM] OF TON;
+	workOrderControl : fbK14WorkOrderControl;
 END_VAR
 VAR_TEMP
 	i: USINT;
@@ -60,11 +58,9 @@ IF ManualMode THEN (*Ручной режим?*)
 	END_FOR;
 ELSE
 	IF WorkAllowed THEN	(*Работа разрешена?*)
-		IF SummerMode THEN	(*Летний режим?*)
-			pumpWorkOrder := PumpWorkSummerOrder;
-		ELSE
-			pumpWorkOrder := PumpWorkHeatingOrder;
-		END_IF;
+		(*определяем порядок включения насосов*)
+		workOrderControl( SummerMode := SummerMode,
+								pumpWorkOrder := pumpWorkOrder);
 
 		FOR i := 1 TO MAX_K14_PUMPS_NUM DO
 			(*

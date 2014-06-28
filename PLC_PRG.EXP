@@ -28,6 +28,15 @@ VAR_TEMP
 	K15PumpState : ARRAY [1..MAX_K15_PUMPS_NUM] OF BOOL;
 END_VAR
 (* @END_DECLARATION := '0' *)
+
+(*
+	Включение сигнала на UZ
+	по тому же сигналу, что и MV110DI.TurnOnK15AndK16
+*)
+FOR i := 1 TO MAX_K14_PUMPS_NUM DO
+	PLC160DO.UZStart[i] := MV110DI.TurnOnK15AndK16;
+END_FOR;
+
 (*
 	3. Управление насосами К14
 	контура отопления и вентиляции
@@ -35,7 +44,7 @@ END_VAR
 FOR i := 1 TO MAX_K14_PUMPS_NUM DO
 	turnOnK14PumpButtonPressed[i] := NOT(PLC160DI.K14_PumpStop[i]);
 	turnOffK14PumpButtonPressed[i] := PLC160DI.K14_PumpStop[i];
-	emergencyK14PumpStopButtonPressed[i] := FALSE;
+	emergencyK14PumpStopButtonPressed[i] := PLC160DI.UZStatus[i].Fail;
 	K14PumpState[i] := MU110DO.K14PumpIsOn[i];
 END_FOR;
 
