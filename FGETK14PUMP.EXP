@@ -1,0 +1,14 @@
+
+(* @NESTEDCOMMENTS := 'Yes' *)
+(* @PATH := '\/K14' *)
+(* @OBJECTFLAGS := '0, 8' *)
+(* @SYMFILEFLAGS := '2048' *)
+FUNCTION fGetK14Pump :BOOL
+(* Проверка включения насоса*)
+VAR_INPUT
+	PumpID : USINT;
+END_VAR
+(* @END_DECLARATION := '0' *)
+
+fGetK14Pump := MU110DO.K14PumpIsOn[PumpID];
+END_FUNCTION

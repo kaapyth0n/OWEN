@@ -1,0 +1,30 @@
+
+(* @NESTEDCOMMENTS := 'Yes' *)
+(* @PATH := '\/K14' *)
+(* @OBJECTFLAGS := '0, 8' *)
+(* @SYMFILEFLAGS := '2048' *)
+FUNCTION_BLOCK fbK14PumpsTraining
+(*
+	Функция тренировки насосов К14
+*)
+VAR CONSTANT
+	TrainingDelay: TIME := T#24h;		(*Задержка на включение тренировки*)
+	TrainingPeriod: TIME := T#10s;	(*Период тренировки*)
+END_VAR
+VAR
+	PumpOffDelay : ARRAY [1..MAX_K14_PUMPS_NUM] OF TON;
+	PumpTrainingTimer : ARRAY [1..MAX_K14_PUMPS_NUM] OF TP;
+END_VAR
+VAR_TEMP
+	i: USINT;
+END_VAR
+(* @END_DECLARATION := '0' *)
+
+FOR i := 1 TO MAX_K14_PUMPS_NUM DO
+	PumpOffDelay[i](IN := fGetK14Pump(i), PT := TrainingDelay);
+	PumpTrainingTimer[i](IN := PumpOffDelay[i].Q, PT := TrainingPeriod);
+	IF PumpTrainingTimer[i].Q THEN
+		fTurnOnK14Pump(i);
+	END_IF;
+END_FOR;
+END_FUNCTION_BLOCK

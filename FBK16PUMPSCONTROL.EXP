@@ -25,12 +25,14 @@ VAR_OUTPUT
 END_VAR
 VAR
 	pumpStatusCheckDelay	: ARRAY [1..MAX_K16_PUMPS_NUM] OF TON;
+	pumpsTrainingControl : fbK16PumpsTraining;
 END_VAR
 
 VAR_TEMP
 	i : USINT;
 	pumpWorkOrder : ARRAY [1..MAX_K16_PUMPS_NUM] OF USINT;
 	pumpStatusCheck : ARRAY [1..MAX_K16_PUMPS_NUM] OF BOOL;
+	break : BOOL := FALSE;
 END_VAR
 (* @END_DECLARATION := '0' *)
 
@@ -63,15 +65,24 @@ ELSE
 				работаем с насосами в порядке их приоритета
 				Ищем первый исправный насос и включаем его
 			*)
-			IF NOT(K16PumpFaulty[pumpWorkOrder[i]]) THEN
+			IF NOT(break) AND NOT(K16PumpFaulty[pumpWorkOrder[i]]) THEN
 				fK16PumpAutoControl(
 						PumpID := pumpWorkOrder[i],
 						EmergencyPumpStopButtonPressed := EmergencyPumpStopButtonPressed[pumpWorkOrder[i]]
 				);
-				RETURN;
+				break := TRUE;
 			END_IF;
 		END_FOR;
+		(*периодическая тренировка насосов*)
+		pumpsTrainingControl();
 	ELSE
+		(*
+			если работа не разрешена,
+			выключаем все насосы
+		*)
+		FOR i := 1 TO MAX_K16_PUMPS_NUM DO
+			fTurnOffK16Pump(i);
+		END_FOR;
 		RETURN;
 	END_IF;
 END_IF;
