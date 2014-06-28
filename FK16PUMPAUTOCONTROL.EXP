@@ -8,7 +8,16 @@ VAR_INPUT
 	PumpID : USINT;
 	EmergencyPumpStopButtonPressed : BOOL;
 END_VAR
+VAR
+	i: USINT;
+END_VAR
 (* @END_DECLARATION := '0' *)
+(*выключаем все насосы кроме данного*)
+FOR i := 1 TO MAX_K16_PUMPS_NUM DO
+	IF i <> PumpID THEN
+		fTurnOffK16Pump(i);
+	END_IF;
+END_FOR;
 
 IF EmergencyPumpStopButtonPressed THEN	(*Нажат аварийный стоп насоса?*)
 	fTurnOffK16Pump(PumpID); (*Выключить насос*)
