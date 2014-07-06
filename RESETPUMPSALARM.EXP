@@ -1,0 +1,30 @@
+
+(* @NESTEDCOMMENTS := 'Yes' *)
+(* @PATH := '' *)
+(* @OBJECTFLAGS := '0, 8' *)
+(* @SYMFILEFLAGS := '2048' *)
+FUNCTION resetPumpsAlarm : BOOL
+(*
+	—брос всех аварий насосов
+*)
+VAR_INPUT
+	IN : BOOL;
+END_VAR
+VAR
+	i : USINT;
+END_VAR
+(* @END_DECLARATION := '0' *)
+IF IN THEN
+	FOR i := 1 TO MAX_K14_PUMPS_NUM DO
+		K14PumpFaulty[i] := FALSE;
+	END_FOR;
+
+	FOR i := 1 TO MAX_K15_PUMPS_NUM DO
+		K15PumpFaulty[i] := FALSE;
+	END_FOR;
+
+	FOR i := 1 TO MAX_K16_PUMPS_NUM DO
+		K16PumpFaulty[i] := FALSE;
+	END_FOR;
+END_IF;
+END_FUNCTION

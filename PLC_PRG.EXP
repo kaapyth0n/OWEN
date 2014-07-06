@@ -4,10 +4,16 @@
 (* @OBJECTFLAGS := '0, 8' *)
 (* @SYMFILEFLAGS := '2048' *)
 PROGRAM PLC_PRG
+VAR CONSTANT
+	K14AutoModeDelay : TIME := T#10s;
+END_VAR
+
 VAR
+	SignalizationResetTrigger : R_TRIG;
 	K14PumpsControl : fbK14PumpsControl;
 	K15PumpsControl : fbK15PumpsControl;
 	K16PumpsControl : fbK16PumpsControl;
+	K14ManualModeTOF : TOF;
 END_VAR
 
 VAR_TEMP
@@ -16,18 +22,30 @@ VAR_TEMP
 	turnOffK14PumpButtonPressed : ARRAY [1..MAX_K14_PUMPS_NUM] OF BOOL;
 	emergencyK14PumpStopButtonPressed : ARRAY [1..MAX_K14_PUMPS_NUM] OF BOOL;
 	K14PumpState : ARRAY [1..MAX_K14_PUMPS_NUM] OF BOOL;
+	K14WorkAllowed : BOOL := FALSE;
 
-	turnOnK16PumpButtonPressed : ARRAY [1..MAX_K16_PUMPS_NUM] OF BOOL;
-	turnOffK16PumpButtonPressed : ARRAY [1..MAX_K16_PUMPS_NUM] OF BOOL;
-	emergencyK16PumpStopButtonPressed : ARRAY [1..MAX_K16_PUMPS_NUM] OF BOOL;
-	K16PumpState : ARRAY [1..MAX_K16_PUMPS_NUM] OF BOOL;
 
 	turnOnK15PumpButtonPressed : ARRAY [1..MAX_K15_PUMPS_NUM] OF BOOL;
 	turnOffK15PumpButtonPressed : ARRAY [1..MAX_K15_PUMPS_NUM] OF BOOL;
 	emergencyK15PumpStopButtonPressed : ARRAY [1..MAX_K15_PUMPS_NUM] OF BOOL;
 	K15PumpState : ARRAY [1..MAX_K15_PUMPS_NUM] OF BOOL;
+	K15WorkAllowed: BOOL := FALSE;
+
+	turnOnK16PumpButtonPressed : ARRAY [1..MAX_K16_PUMPS_NUM] OF BOOL;
+	turnOffK16PumpButtonPressed : ARRAY [1..MAX_K16_PUMPS_NUM] OF BOOL;
+	emergencyK16PumpStopButtonPressed : ARRAY [1..MAX_K16_PUMPS_NUM] OF BOOL;
+	K16PumpState : ARRAY [1..MAX_K16_PUMPS_NUM] OF BOOL;
+	K16WorkAllowed : BOOL := FALSE;
 END_VAR
 (* @END_DECLARATION := '0' *)
+
+(*
+	Сброс всех аварий насосов по замыканию кнопки
+	съема аварий
+*)
+SignalizationResetTrigger(CLK := MV110DI.SignalizationButton);
+resetPumpsAlarm(SignalizationResetTrigger.Q);
+
 
 (*
 	Включение сигнала на UZ
@@ -46,11 +64,18 @@ FOR i := 1 TO MAX_K14_PUMPS_NUM DO
 	turnOffK14PumpButtonPressed[i] := PLC160DI.K14_PumpStop[i];
 	emergencyK14PumpStopButtonPressed[i] := PLC160DI.UZStatus[i].Fail;
 	K14PumpState[i] := MU110DO.K14PumpIsOn[i];
+
+	(*если хоть один из насосов исправен, то работа разрешена*)
+	IF NOT(K14PumpFaulty[i]) THEN
+		K14WorkAllowed := TRUE;
+	END_IF;
 END_FOR;
 
+K14ManualModeTOF(IN := NOT(PLC160DI.K14_PumpsModeIsAuto), PT := K14AutoModeDelay);
+
 K14PumpsControl(
-	ManualMode						:= NOT(PLC160DI.K14_PumpsModeIsAuto),
-	WorkAllowed						:= TRUE, (*TODO: Выяснить про этот вход*)
+	ManualMode						:= K14ManualModeTOF.Q,
+	WorkAllowed						:= K14WorkAllowed,
 	SummerMode						:= NOT(PLC160DI.K14_PumpsModeIsHeating),
 	TurnOnPumpButtonPressed		:= turnOnK14PumpButtonPressed, (*TODO: Выяснить про этот вход*)
 	TurnOffPumpButtonPressed	:= turnOffK14PumpButtonPressed,
@@ -68,11 +93,15 @@ FOR i := 1 TO MAX_K15_PUMPS_NUM DO
 	turnOffK15PumpButtonPressed[i] := MV110DI.K15_StopButton[i];
 	emergencyK15PumpStopButtonPressed[i] := FALSE;
 	K15PumpState[i] := PLC160DO.K15Pump[i];
+	(*если хоть один из насосов исправен, то работа разрешена*)
+	IF NOT(K15PumpFaulty[i]) THEN
+		K15WorkAllowed := TRUE;
+	END_IF;
 END_FOR;
 
 K15PumpsControl(
 	ManualMode						:= NOT(MV110DI.HeatingDHWPumpGroupModeIsAuto),
-	WorkAllowed						:= TRUE, (*TODO: Выяснить про этот вход*)
+	WorkAllowed						:= K15WorkAllowed,
 	TurnOnPumpButtonPressed		:= turnOnK15PumpButtonPressed, (*TODO: Выяснить про этот вход*)
 	TurnOffPumpButtonPressed	:= turnOffK15PumpButtonPressed,
 	EmergencyPumpStopButtonPressed := emergencyK15PumpStopButtonPressed,		(*TODO: Выяснить про этот вход*)
@@ -89,11 +118,16 @@ FOR i := 1 TO MAX_K16_PUMPS_NUM DO
 	turnOffK16PumpButtonPressed[i] := MV110DI.K16_StopButton[i];
 	emergencyK16PumpStopButtonPressed[i] := FALSE;
 	K16PumpState[i] := PLC160DO.K16Pump[i];
+
+	(*если хоть один из насосов исправен, то работа разрешена*)
+	IF NOT(K16PumpFaulty[i]) THEN
+		K16WorkAllowed := TRUE;
+	END_IF;
 END_FOR;
 
 K16PumpsControl(
 	ManualMode						:= NOT(MV110DI.DHWPumpGroupModeIsAuto),
-	WorkAllowed						:= TRUE, (*TODO: Выяснить про этот вход*)
+	WorkAllowed						:= K16WorkAllowed,
 	TurnOnPumpButtonPressed		:= turnOnK16PumpButtonPressed, (*TODO: Выяснить про этот вход*)
 	TurnOffPumpButtonPressed	:= turnOffK16PumpButtonPressed,
 	EmergencyPumpStopButtonPressed := emergencyK16PumpStopButtonPressed,		(*TODO: Выяснить про этот вход*)

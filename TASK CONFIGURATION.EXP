@@ -6,7 +6,7 @@ PLC_PRG();
 {Additional_info : 2,0,0,0,1,4294967295}
 END_TASK
 
-TASK Task100ms (PRIORITY := 1, INTERVAL := T#200ms);
+TASK Task200ms (PRIORITY := 1, INTERVAL := T#200ms);
 GetInputs();
 {Additional_info : 1,0,0,0,1,4294967295}
 END_TASK
