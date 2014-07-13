@@ -5,17 +5,17 @@
 (* @SYMFILEFLAGS := '2048' *)
 FUNCTION fSetK14Pump : BOOL
 VAR_INPUT
-	State : BOOL;
+	State	: BOOL;
 	PumpID : USINT;
 END_VAR
 VAR
 END_VAR
 (* @END_DECLARATION := '0' *)
 
-
-	MU110DO.K14PumpIsOn[PumpID] := State;
-	(*Включить/Выключить реле насоса*)
-
-	PLC160AO.UZSpeed[PumpID]	:= fUZSignalToVoltageOutput(PLC160AI.UZSignal[PumpID]);
 	(*Задать управляющее напряжение на насос*)
+	IF State THEN
+		PLC160AO.UZSpeed[PumpID]	:= fUZSignalToVoltageOutput(PLC160AI.UZSignal[PumpID]);
+	ELSE
+		PLC160AO.UZSpeed[PumpID]	:= 0.0;
+	END_IF;
 END_FUNCTION

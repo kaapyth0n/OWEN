@@ -48,6 +48,7 @@ fK15PumpsFaultyControl(
 );
 
 IF ManualMode THEN (*Ручной режим?*)
+(*
 	FOR i := 1 TO MAX_K15_PUMPS_NUM DO
 		fK15PumpManualControl(
 			PumpID	:= i,
@@ -56,6 +57,11 @@ IF ManualMode THEN (*Ручной режим?*)
 			State		:= PumpState[i],
 			EmergencyStop := EmergencyPumpStopButtonPressed[i]
 		);
+	END_FOR;
+*)
+	(*Контроллер никак не участвует в ручном режиме*)
+	FOR i := 1 TO MAX_K15_PUMPS_NUM DO
+		fTurnOffK15Pump(i);
 	END_FOR;
 ELSE
 	IF WorkAllowed THEN	(*Работа разрешена?*)

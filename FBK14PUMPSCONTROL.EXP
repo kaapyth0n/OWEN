@@ -49,6 +49,7 @@ fK14PumpsFaultyControl(
 
 (*Управление насосами К14*)
 IF ManualMode THEN (*Ручной режим?*)
+(*
 	FOR i := 1 TO MAX_K14_PUMPS_NUM DO
 		fK14PumpManualControl(
 			PumpID	:= i,
@@ -57,6 +58,11 @@ IF ManualMode THEN (*Ручной режим?*)
 			State		:= PumpState[i],
 			EmergencyStop := EmergencyPumpStopButtonPressed[i]
 		);
+	END_FOR;
+*)
+	(*Контроллер никак не участвует в ручном режиме*)
+	FOR i := 1 TO MAX_K14_PUMPS_NUM DO
+		fTurnOffK14Pump(i);
 	END_FOR;
 ELSE
 	IF WorkAllowed THEN	(*Работа разрешена?*)
