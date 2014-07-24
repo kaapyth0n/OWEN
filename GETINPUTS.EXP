@@ -9,7 +9,7 @@ PROGRAM GetInputs
 
 (*Дискртеные входы ПЛК160*)
 PLC160DI.K14_PumpsModeIsAuto		:= DI_0_00;
-PLC160DI.K14_PumpsModeIsHeating	:= DI_0_01;
+PLC160DI.K14_PumpsModeIsHeating	:= NOT(DI_0_01);
 PLC160DI.K14_PumpStop[1]			:= DI_0_02;
 PLC160DI.K14_PumpStop[2]			:= DI_0_03;
 PLC160DI.K14_PumpStop[3]			:= DI_0_04;
