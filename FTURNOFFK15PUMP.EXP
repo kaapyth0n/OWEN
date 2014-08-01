@@ -12,5 +12,5 @@ END_VAR
 (* @END_DECLARATION := '0' *)
 
 
-	fSetK16Pump(FALSE, PumpID);
+	fSetK15Pump(FALSE, PumpID);
 END_FUNCTION
