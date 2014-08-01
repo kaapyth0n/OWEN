@@ -3,7 +3,7 @@
 (* @PATH := '\/IO' *)
 (* @OBJECTFLAGS := '0, 8' *)
 (* @SYMFILEFLAGS := '2048' *)
-FUNCTION setMUOutput : REAL
+FUNCTION setMUOutput : WORD
 VAR_INPUT
 	IN : BOOL;
 END_VAR
@@ -11,8 +11,8 @@ VAR
 END_VAR
 (* @END_DECLARATION := '0' *)
 IF IN THEN
-	setMUOutput := 1.0;
+	setMUOutput := 1000;
 ELSE
-	setMUOutput := 0.0;
+	setMUOutput := 0;
 END_IF;
 END_FUNCTION
