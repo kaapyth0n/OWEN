@@ -11,11 +11,12 @@ END_VAR
 VAR
 END_VAR
 (* @END_DECLARATION := '0' *)
-
 	(*Задать управляющее напряжение на насос*)
 	IF State THEN
+		PLC160DO.UZStart[PumpID]		:= TRUE;
 		PLC160AO.UZSpeed[PumpID]	:= fUZSignalToVoltageOutput(K14UZSPumpSpeed);
 	ELSE
+		PLC160DO.UZStart[PumpID]		:= FALSE;
 		PLC160AO.UZSpeed[PumpID]	:= 0.0;
 	END_IF;
 END_FUNCTION

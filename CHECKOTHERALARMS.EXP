@@ -1,0 +1,25 @@
+
+(* @NESTEDCOMMENTS := 'Yes' *)
+(* @PATH := '' *)
+(* @OBJECTFLAGS := '0, 8' *)
+(* @SYMFILEFLAGS := '2048' *)
+FUNCTION checkOtherAlarms : BOOL
+(*
+	Включение зуммера по всяким другим авариям
+*)
+VAR
+END_VAR
+(* @END_DECLARATION := '0' *)
+IF
+	MV110DI.CO_Level_I	OR
+	MV110DI.CO_Level_II	OR
+	MV110DI.CH_Level_I	OR
+	MV110DI.CH_Level_II	OR
+	MV110DI.FireAlarm	OR
+	MV110DI.BoilerGeneralFault	OR
+	MV110DI.BoilerAlarm[1]	OR
+	MV110DI.BoilerAlarm[2]	OR
+	MV110DI.BoilerAlarm[3]	THEN
+		MU110DO.Buzzer := TRUE;
+END_IF
+END_FUNCTION

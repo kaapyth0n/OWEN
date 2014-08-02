@@ -9,7 +9,7 @@ VAR CONSTANT
 END_VAR
 
 VAR
-	SignalizationResetTrigger : R_TRIG;
+	SignalizationResetTrigger : F_TRIG;
 	K14PumpsControl : fbK14PumpsControl;
 	K15PumpsControl : fbK15PumpsControl;
 	K16PumpsControl : fbK16PumpsControl;
@@ -26,6 +26,22 @@ VAR_TEMP
 END_VAR
 (* @END_DECLARATION := '0' *)
 
+	K14WorkAllowed := FALSE;
+
+	K15WorkAllowed := FALSE;
+
+	K16WorkAllowed := FALSE;
+
+(*
+	Проверить состояние аварий на насосах и зажечь лампочки, включить зуммер
+*)
+checkPumpsAlarm();
+
+(*
+	Проверить состояние всех других аварий и включить зуммер
+*)
+checkOtherAlarms();
+
 (*
 	Сброс всех аварий насосов по замыканию кнопки
 	съема аварий
@@ -37,10 +53,10 @@ resetPumpsAlarm(SignalizationResetTrigger.Q);
 (*
 	Включение сигнала на UZ
 	по тому же сигналу, что и MV110DI.TurnOnK15AndK16
-*)
 FOR i := 1 TO MAX_K14_PUMPS_NUM DO
 	PLC160DO.UZStart[i] := MV110DI.TurnOnK15AndK16;
 END_FOR;
+*)
 
 (*
 	3. Управление насосами К14

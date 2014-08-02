@@ -9,7 +9,7 @@ FUNCTION_BLOCK fbK14PumpsControl
 	контура отопления и вентиляции
 *)
 VAR CONSTANT
-	PumpCheckDelayTime : TIME := T#2s;
+	PumpCheckDelayTime : TIME := T#30s;
 END_VAR
 
 VAR_INPUT
@@ -32,7 +32,7 @@ VAR_TEMP
 	break : BOOL := FALSE;
 END_VAR
 (* @END_DECLARATION := '0' *)
-
+break := FALSE;
 (*Проверяем исправность насосов К14*)
 FOR i := 1 TO MAX_K14_PUMPS_NUM DO
 	pumpStatusCheckDelay[i](IN := PumpState[i], PT := PumpCheckDelayTime);
