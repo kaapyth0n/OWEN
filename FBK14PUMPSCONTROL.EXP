@@ -16,8 +16,6 @@ VAR_INPUT
 	ManualMode: BOOL;						(*Ручной режим?*)
 	WorkAllowed: BOOL;					(*Работа разрешена?*)
 	SummerMode: BOOL;						(*Летний режим?*)
-	TurnOnPumpButtonPressed: ARRAY [1..MAX_K14_PUMPS_NUM] OF BOOL;	(*Нажата кнопка "Пуск насоса"?*)
-	TurnOffPumpButtonPressed: ARRAY [1..MAX_K14_PUMPS_NUM] OF BOOL;	(*Нажата кнопка "Стоп насоса"?*)
 	EmergencyPumpStopButtonPressed: ARRAY [1..MAX_K14_PUMPS_NUM] OF BOOL; (*Нажат аварийный стоп насоса?*)
 	PumpState: ARRAY [1..MAX_K14_PUMPS_NUM] OF BOOL;	(*Работает насос?*)
 	PressureDrop : BOOL;					(*Есть разница давлений?*)
