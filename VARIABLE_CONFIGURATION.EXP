@@ -3,7 +3,8 @@
 (* @PATH := '' *)
 (* @OBJECTFLAGS := '0, 8' *)
 (* @SYMFILEFLAGS := '2048' *)
-VAR_CONFIG
+VAR_GLOBAL RETAIN
+	K14UZSPumpSpeed : USINT := 100;
 END_VAR
 
 (* @OBJECT_END := 'Variable_Configuration' *)
