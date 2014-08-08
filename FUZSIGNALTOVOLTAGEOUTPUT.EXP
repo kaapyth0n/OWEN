@@ -15,7 +15,6 @@ END_VAR
 VAR
 END_VAR
 (* @END_DECLARATION := '0' *)
-
 (*TODO: написать корректную функцию преобразования тока в напряжение*)
-fUZSignalToVoltageOutput := IN;
+fUZSignalToVoltageOutput := IN/10.0;
 END_FUNCTION

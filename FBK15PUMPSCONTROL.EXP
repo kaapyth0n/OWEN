@@ -9,7 +9,7 @@ FUNCTION_BLOCK fbK15PumpsControl
 	контура нагрева ГВС
 *)
 VAR CONSTANT
-	PumpCheckDelayTime : TIME := T#2s;
+	PumpCheckDelayTime : TIME := T#10s;
 	PumpWorkHeatingOrder : ARRAY [1..MAX_K15_PUMPS_NUM] OF USINT := 1, 2;
 END_VAR
 VAR_INPUT
@@ -33,6 +33,7 @@ VAR_TEMP
 	break : BOOL := FALSE;
 END_VAR
 (* @END_DECLARATION := '0' *)
+break := FALSE;
 
 FOR i := 1 TO MAX_K15_PUMPS_NUM DO
 	pumpStatusCheckDelay[i](IN := PumpState[i], PT := PumpCheckDelayTime);

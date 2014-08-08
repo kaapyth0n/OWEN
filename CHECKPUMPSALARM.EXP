@@ -1,0 +1,35 @@
+
+(* @NESTEDCOMMENTS := 'Yes' *)
+(* @PATH := '' *)
+(* @OBJECTFLAGS := '0, 8' *)
+(* @SYMFILEFLAGS := '2048' *)
+FUNCTION checkPumpsAlarm : BOOL
+(*
+	Включение лампочек и зуммера по авариям насосов
+*)
+VAR
+	i : USINT;
+END_VAR
+(* @END_DECLARATION := '0' *)
+	FOR i := 1 TO MAX_K14_PUMPS_NUM DO
+		IF K14PumpFaulty[i] OR PLC160DI.UZStatus[i].Fail THEN
+			MU110DO.K14PumpGroupAlarm := TRUE;
+			MU110DO.Buzzer := TRUE;
+		END_IF
+	END_FOR;
+
+	FOR i := 1 TO MAX_K15_PUMPS_NUM DO
+		IF K15PumpFaulty[i] THEN
+			PLC160DO.K15Alarm := TRUE;
+			MU110DO.Buzzer := TRUE;
+		END_IF
+	END_FOR;
+
+	FOR i := 1 TO MAX_K16_PUMPS_NUM DO
+		IF K16PumpFaulty[i] THEN
+			PLC160DO.K16Alarm := TRUE;
+			MU110DO.Buzzer := TRUE;
+		END_IF
+	END_FOR;
+
+END_FUNCTION
