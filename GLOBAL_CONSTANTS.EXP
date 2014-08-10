@@ -1,0 +1,33 @@
+(* @NESTEDCOMMENTS := 'Yes' *)
+(* @GLOBAL_VARIABLE_LIST := 'Global_Constants' *)
+(* @PATH := '' *)
+(* @OBJECTFLAGS := '0, 8' *)
+(* @SYMFILEFLAGS := '2048' *)
+VAR_GLOBAL CONSTANT
+	MAXIMUM_HEATING_CIRCUITS_NUM : USINT := 3;
+	(*Количество отопительных контуров*)
+
+	MAX_UZ_NUM : USINT := 3;
+	(*Количество частотных преобразователей UZ*)
+
+	MAX_BOILERS_NUM : USINT := 3;
+	(*Количество котлов*)
+
+	MAX_K14_PUMPS_NUM : USINT := 3;
+	(*Количество насосов К14*)
+
+	MAX_K15_PUMPS_NUM : USINT := 2;
+	(*Количество насосов К15*)
+
+	MAX_K16_PUMPS_NUM : USINT := 2;
+	(*Количество насосов К16*)
+END_VAR
+
+
+(* @OBJECT_END := 'Global_Constants' *)
+(* @CONNECTIONS := Global_Constants
+FILENAME : ''
+FILETIME : 0
+EXPORT : 0
+NUMOFCONNECTIONS : 0
+*)

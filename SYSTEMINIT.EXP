@@ -1,0 +1,22 @@
+
+(* @NESTEDCOMMENTS := 'Yes' *)
+(* @PATH := '' *)
+(* @OBJECTFLAGS := '0, 8' *)
+(* @SYMFILEFLAGS := '2048' *)
+FUNCTION SystemInit : BOOL
+(*
+	Инициализация программы
+	Вызывается один раз при старте ПЛК
+*)
+VAR_INPUT
+END_VAR
+VAR
+END_VAR
+(* @END_DECLARATION := '0' *)
+
+MB_W_01 := K14UZSPumpSpeed;
+(*
+	Инициализация модбас параметра,
+	отвечающего за сигнал на UZ
+*)
+END_FUNCTION

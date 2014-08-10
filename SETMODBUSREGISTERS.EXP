@@ -1,0 +1,97 @@
+
+(* @NESTEDCOMMENTS := 'Yes' *)
+(* @PATH := '\/Modbus' *)
+(* @OBJECTFLAGS := '0, 8' *)
+(* @SYMFILEFLAGS := '2048' *)
+FUNCTION setModbusRegisters : BOOL
+VAR_INPUT
+END_VAR
+VAR_TEMP
+	K14PumpStatus		: ARRAY [1..MAX_K14_PUMPS_NUM] OF USINT;
+	K15PumpStatus		: ARRAY [1..MAX_K15_PUMPS_NUM] OF USINT;
+	K16PumpStatus		: ARRAY [1..MAX_K16_PUMPS_NUM] OF USINT;
+	i: USINT;
+END_VAR
+
+VAR CONSTANT
+	PUMP_STATUS_OFF	: USINT := 0;
+	PUMP_STATUS_ON		: USINT := 1;
+	PUMP_STATUS_ERROR	: USINT := 2;
+END_VAR
+(* @END_DECLARATION := '0' *)
+
+
+
+FOR i := 1 TO MAX_K14_PUMPS_NUM DO
+	IF K14PumpFaulty[i]	THEN	K14PumpStatus[i] := PUMP_STATUS_ERROR;
+	ELSIF fGetK14Pump(i)	THEN	K14PumpStatus[i] := PUMP_STATUS_ON;
+	ELSE								K14PumpStatus[i] := PUMP_STATUS_OFF;
+	END_IF;
+END_FOR;
+FOR i := 1 TO MAX_K15_PUMPS_NUM DO
+	IF K15PumpFaulty[i]	THEN	K15PumpStatus[i] := PUMP_STATUS_ERROR;
+	ELSIF fGetK15Pump(i)	THEN	K15PumpStatus[i] := PUMP_STATUS_ON;
+	ELSE								K15PumpStatus[i] := PUMP_STATUS_OFF;
+	END_IF;
+END_FOR;
+FOR i := 1 TO MAX_K16_PUMPS_NUM DO
+	IF K16PumpFaulty[i]	THEN	K16PumpStatus[i] := PUMP_STATUS_ERROR;
+	ELSIF fGetK16Pump(i)	THEN	K16PumpStatus[i] := PUMP_STATUS_ON;
+	ELSE								K16PumpStatus[i] := PUMP_STATUS_OFF;
+	END_IF;
+END_FOR;
+
+
+MB_W_02	:= K14PumpStatus[1];
+MB_W_03	:= K14PumpStatus[2];
+MB_W_04	:= K14PumpStatus[3];
+MB_W_05	:= K15PumpStatus[1];
+MB_W_06	:= K15PumpStatus[2];
+MB_W_07	:= K16PumpStatus[1];
+MB_W_08	:= K16PumpStatus[2];
+MB_W_09	:= REAL_TO_WORD(PLC160AI.DilutionSignal[1]);
+MB_W_10	:= REAL_TO_WORD(PLC160AI.DilutionSignal[2]);
+MB_W_11	:= REAL_TO_WORD(PLC160AI.DilutionSignal[3]);
+MB_W_12	:= REAL_TO_WORD(PLC160AI.UZSignal[1]);
+MB_W_13	:= REAL_TO_WORD(PLC160AI.UZSignal[2]);
+MB_W_14	:= REAL_TO_WORD(PLC160AI.UZSignal[3]);
+
+MB_b_21_00 := MV110DI.CO_Level_I;
+MB_b_21_01 := MV110DI.CO_Level_II;
+MB_b_21_02 := MV110DI.CH_Level_I;
+MB_b_21_03 := MV110DI.CH_Level_II;
+MB_b_21_04 := MV110DI.FireAlarm;
+MB_b_21_05 := MV110DI.BoilerGeneralFault;
+MB_b_21_06 := MV110DI.BoilerAlarm[1];
+MB_b_21_07 := MV110DI.BoilerAlarm[2];
+MB_b_22_00 := MV110DI.BoilerAlarm[3];
+MB_b_22_01 := MV110DI.BlockAllBoilers;
+MB_b_22_02 := MV110DI.TurnOnAllBoilers;
+MB_b_22_03 := PLC160DI.UZStatus[1].Ready;
+MB_b_22_04 := PLC160DI.UZStatus[1].Running;
+MB_b_22_05 := PLC160DI.UZStatus[1].Fail;
+MB_b_22_06 := PLC160DI.UZStatus[2].Ready;
+MB_b_22_07 := PLC160DI.UZStatus[2].Running;
+MB_b_23_00 := PLC160DI.UZStatus[2].Fail;
+MB_b_23_01 := PLC160DI.UZStatus[3].Ready;
+MB_b_23_02 := PLC160DI.UZStatus[3].Running;
+MB_b_23_03 := PLC160DI.UZStatus[3].Fail;
+MB_b_23_04 := MV110DI.K22ValveState.Open;
+MB_b_23_05 := MV110DI.K22ValveState.Close;
+MB_b_23_06 := MV110DI.K23ValveState.Open;
+MB_b_23_07 := MV110DI.K23ValveState.Close;
+MB_b_24_00 := NOT(PLC160DI.K14_NoPressureDrop);
+MB_b_24_01 := NOT(MV110DI.K15_NoPressureDrop);
+MB_b_24_02 := NOT(MV110DI.K16_NoPressureDrop);
+MB_b_24_03 := PLC160DI.K14_PumpStop[1];
+MB_b_24_04 := PLC160DI.K14_PumpStop[2];
+MB_b_24_05 := PLC160DI.K14_PumpStop[3];
+MB_b_24_06 := PLC160DI.K14_PumpsModeIsHeating;
+MB_b_24_07 := PLC160DI.K14_PumpsModeIsAuto;
+MB_b_25_00 := MV110DI.K15_StopButton[1];
+MB_b_25_01 := MV110DI.K15_StopButton[2];
+MB_b_25_02 := MV110DI.HeatingDHWPumpGroupModeIsAuto;
+MB_b_25_03 := MV110DI.K16_StopButton[1];
+MB_b_25_04 := MV110DI.K16_StopButton[2];
+MB_b_25_05 := MV110DI.DHWPumpGroupModeIsAuto;
+END_FUNCTION

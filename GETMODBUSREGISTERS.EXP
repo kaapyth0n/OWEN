@@ -1,0 +1,14 @@
+
+(* @NESTEDCOMMENTS := 'Yes' *)
+(* @PATH := '\/Modbus' *)
+(* @OBJECTFLAGS := '0, 8' *)
+(* @SYMFILEFLAGS := '2048' *)
+FUNCTION getModbusRegisters : BOOL
+VAR_INPUT
+END_VAR
+VAR
+END_VAR
+(* @END_DECLARATION := '0' *)
+
+K14UZSPumpSpeed := WORD_TO_USINT(MB_W_01);
+END_FUNCTION

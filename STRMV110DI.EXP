@@ -9,13 +9,13 @@ TYPE strMV110DI :
 	Дискретные входы
 *)
 STRUCT
-	K15_StopButton : ARRAY [1..2] OF BOOL;
+	K15_StopButton : ARRAY [1..MAX_K15_PUMPS_NUM] OF BOOL;
 (*
 	Входы №1-2
 	Сигналы с кнопок стоп Насосов К15.1-2
 *)
 
-	K16_StopButton : ARRAY [1..2] OF BOOL;
+	K16_StopButton : ARRAY [1..MAX_K16_PUMPS_NUM] OF BOOL;
 (*
 	Входы №3-4
 	Сигналы с кнопок стоп Насосов К16.1-2

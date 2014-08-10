@@ -1,0 +1,25 @@
+
+(* @NESTEDCOMMENTS := 'Yes' *)
+(* @PATH := '\/Modbus' *)
+(* @OBJECTFLAGS := '0, 8' *)
+(* @SYMFILEFLAGS := '2048' *)
+PROGRAM ModbusControl
+VAR_TEMP
+	i: USINT;
+END_VAR
+
+(* @END_DECLARATION := '0' *)
+
+(*чтение регистров Modbus*)
+getModbusRegisters();
+
+(*запись регистров Modbus*)
+setModbusRegisters();
+
+
+
+
+
+
+
+END_PROGRAM
