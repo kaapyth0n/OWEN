@@ -14,23 +14,27 @@ VAR
 	K15PumpsControl : fbK15PumpsControl;
 	K16PumpsControl : fbK16PumpsControl;
 	K14ManualModeTOF : TOF;
+	systemRestart: BOOL := TRUE;
 END_VAR
 
 VAR_TEMP
 	i: USINT;
 	K14WorkAllowed : BOOL := FALSE;
-
-	K15WorkAllowed: BOOL := FALSE;
-
+	K15WorkAllowed : BOOL := FALSE;
 	K16WorkAllowed : BOOL := FALSE;
 END_VAR
 (* @END_DECLARATION := '0' *)
 
 	K14WorkAllowed := FALSE;
-
 	K15WorkAllowed := FALSE;
-
 	K16WorkAllowed := FALSE;
+
+(*Инициализация программы*)
+IF systemRestart THEN
+	systemRestart := FALSE;
+	SystemInit();
+END_IF;
+
 
 (*
 	Проверить состояние аварий на насосах и зажечь лампочки, включить зуммер

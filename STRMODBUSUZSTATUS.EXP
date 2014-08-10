@@ -1,0 +1,12 @@
+(* @NESTEDCOMMENTS := 'Yes' *)
+(* @PATH := '' *)
+(* @OBJECTFLAGS := '0, 8' *)
+TYPE strModbusUZStatus :
+STRUCT
+	Ready : BOOL;
+	Running : BOOL;
+	Fail	: BOOL;
+	Signal : tUZSignal;
+END_STRUCT
+END_TYPE
+(* @END_DECLARATION := '0' *)

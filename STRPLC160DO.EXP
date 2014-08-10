@@ -21,13 +21,13 @@ STRUCT
 	Выбор постоянной скорости UZ (50Гц, 100%)
 *)
 
-	K15Pump : ARRAY [1..2] OF BOOL;
+	K15Pump : ARRAY [1..MAX_K15_PUMPS_NUM] OF BOOL;
 (*
 	Выходы №7-8
 	Включить/отключить насосы К15.1-2
 *)
 
-	K16Pump : ARRAY [1..2] OF BOOL;
+	K16Pump : ARRAY [1..MAX_K16_PUMPS_NUM] OF BOOL;
 (*
 	Выходы №9-10
 	Включить/отключить насосы К16.1-2

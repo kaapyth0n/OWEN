@@ -1,0 +1,18 @@
+(* @NESTEDCOMMENTS := 'Yes' *)
+(* @PATH := '' *)
+(* @OBJECTFLAGS := '0, 8' *)
+TYPE strAlarmSignals :
+STRUCT
+	CO_I		: BOOL;
+	CO_II 	: BOOL;
+	CH_I		: BOOL;
+	CH_II		: BOOL;
+	Fire		: BOOL;
+	Boilers	: BOOL;
+	Boiler 	: ARRAY [1..MAX_BOILERS_NUM] OF BOOL;
+	K14Pump	: ARRAY [1..MAX_K14_PUMPS_NUM] OF BOOL;
+	K15Pump	: ARRAY [1..MAX_K15_PUMPS_NUM] OF BOOL;
+	K16Pump	: ARRAY [1..MAX_K16_PUMPS_NUM] OF BOOL;
+END_STRUCT
+END_TYPE
+(* @END_DECLARATION := '0' *)
