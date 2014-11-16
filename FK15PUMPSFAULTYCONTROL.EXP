@@ -20,14 +20,14 @@ activePumpID := 0;
 
 FOR i := 1 TO MAX_K15_PUMPS_NUM DO
 	IF PumpState[i] THEN
-		IF activePumpID <> 0 THEN
+		IF activePumpID > 1 THEN
 			(*
 				¬ключено больше одного насоса -
 				ничего не можем сказать об их исправности
 			*)
 			RETURN;
 		END_IF;
-		activePumpID := i;
+		activePumpID := activePumpID + 1;
 	END_IF;
 END_FOR;
 
