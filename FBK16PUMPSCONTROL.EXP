@@ -24,6 +24,7 @@ END_VAR
 VAR
 	pumpStatusCheckDelay	: ARRAY [1..MAX_K16_PUMPS_NUM] OF TON;
 	pumpsTrainingControl : fbK16PumpsTraining;
+	workOrderControl: fbK16PumpOrderControl;
 END_VAR
 
 VAR_TEMP
@@ -64,7 +65,8 @@ IF ManualMode THEN (*–учной режим?*)
 	END_FOR;
 ELSE
 	IF WorkAllowed THEN	(*–абота разрешена?*)
-		pumpWorkOrder := PumpWorkHeatingOrder;
+		(*определ€ем пор€док включени€ насосов*)
+		workOrderControl(pumpWorkOrder := pumpWorkOrder);
 		FOR i := 1 TO MAX_K16_PUMPS_NUM DO
 			(*
 				работаем с насосами в пор€дке их приоритета

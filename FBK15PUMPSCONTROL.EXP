@@ -10,7 +10,6 @@ FUNCTION_BLOCK fbK15PumpsControl
 *)
 VAR CONSTANT
 	PumpCheckDelayTime : TIME := T#10s;
-	PumpWorkHeatingOrder : ARRAY [1..MAX_K15_PUMPS_NUM] OF USINT := 1, 2;
 END_VAR
 VAR_INPUT
 	ManualMode: BOOL;						(*Ручной режим?*)
@@ -24,6 +23,7 @@ END_VAR
 VAR
 	pumpStatusCheckDelay	: ARRAY [1..MAX_K15_PUMPS_NUM] OF TON;
 	pumpsTrainingControl : fbK15PumpsTraining;
+	workOrderControl: fbK15PumpOrderControl;
 END_VAR
 
 VAR_TEMP
@@ -64,7 +64,9 @@ IF ManualMode THEN (*Ручной режим?*)
 	END_FOR;
 ELSE
 	IF WorkAllowed THEN	(*Работа разрешена?*)
-		pumpWorkOrder := PumpWorkHeatingOrder;
+		(*определяем порядок включения насосов*)
+		workOrderControl(pumpWorkOrder := pumpWorkOrder);
+
 		FOR i := 1 TO MAX_K15_PUMPS_NUM DO
 			(*
 				работаем с насосами в порядке их приоритета
