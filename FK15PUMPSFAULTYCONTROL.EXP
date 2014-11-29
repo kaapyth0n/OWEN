@@ -9,6 +9,7 @@ VAR_INPUT
 	PumpState : ARRAY [1..MAX_K15_PUMPS_NUM] OF BOOL;
 	PumpStatusCheckDelay : ARRAY [1..MAX_K15_PUMPS_NUM] OF BOOL;
 	PressureDrop : BOOL;
+	EmergencyPumpStopButtonPressed: ARRAY [1..MAX_K15_PUMPS_NUM] OF BOOL; (*Ќажат аварийный стоп насоса?*)
 END_VAR
 VAR
 	i : USINT;
@@ -45,6 +46,9 @@ IF PumpStatusCheckDelay[activePumpID] THEN
 		по перепаду давлени€
 	*)
 	K15PumpFaulty[activePumpID] := NOT(PressureDrop);
+	IF EmergencyPumpStopButtonPressed[activePumpID] THEN
+ 		K15PumpFaulty[activePumpID] := TRUE;
+	END_IF;
 END_IF;
 
 

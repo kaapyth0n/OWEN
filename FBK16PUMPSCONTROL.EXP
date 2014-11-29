@@ -44,7 +44,8 @@ END_FOR;
 fK16PumpsFaultyControl(
 	PumpState				:= PumpState,
 	PumpStatusCheckDelay	:= pumpStatusCheck,
-	PressureDrop			:= PressureDrop
+	PressureDrop			:= PressureDrop,
+	EmergencyPumpStopButtonPressed	:= EmergencyPumpStopButtonPressed
 );
 
 IF ManualMode THEN (*Ручной режим?*)
