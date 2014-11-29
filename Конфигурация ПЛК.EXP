@@ -267,8 +267,8 @@ _PARAM 1: 0, '4-20 mA'
 _PARAM 2: 0, '200'
 _PARAM 3: 0, 'Off'
 _PARAM 4: 0, '10'
-_PARAM 5: 0, '-250'
-_PARAM 6: 0, '250'
+_PARAM 5: 0, '0'
+_PARAM 6: 0, '20000.0'
 _END_PARAMETER
 _END_CHANNEL
 
@@ -285,8 +285,8 @@ _PARAM 1: 0, '4-20 mA'
 _PARAM 2: 0, '200'
 _PARAM 3: 0, 'Off'
 _PARAM 4: 0, '10'
-_PARAM 5: 0, '-250'
-_PARAM 6: 0, '250'
+_PARAM 5: 0, '0'
+_PARAM 6: 0, '20000.0'
 _END_PARAMETER
 _END_CHANNEL
 
@@ -303,8 +303,8 @@ _PARAM 1: 0, '4-20 mA'
 _PARAM 2: 0, '200'
 _PARAM 3: 0, 'Off'
 _PARAM 4: 0, '10'
-_PARAM 5: 0, '-250'
-_PARAM 6: 0, '250'
+_PARAM 5: 0, '0'
+_PARAM 6: 0, '20000.0'
 _END_PARAMETER
 _END_CHANNEL
 
@@ -317,7 +317,7 @@ _CHANNEL_MODE: 'I'
 _IECADR: %IR3.6
 
 _PARAMETER
-_PARAM 1: 0, 'Off'
+_PARAM 1: 0, '4-20 mA'
 _PARAM 2: 0, '200'
 _PARAM 3: 0, 'Off'
 _PARAM 4: 0, '10'
@@ -335,7 +335,7 @@ _CHANNEL_MODE: 'I'
 _IECADR: %IR3.7
 
 _PARAMETER
-_PARAM 1: 0, 'Off'
+_PARAM 1: 0, '4-20 mA'
 _PARAM 2: 0, '200'
 _PARAM 3: 0, 'Off'
 _PARAM 4: 0, '10'
@@ -1194,7 +1194,7 @@ _PARAM 2: 0, 'NO PARITY CHECK'
 _PARAM 3: 0, '8 bits'
 _PARAM 4: 0, 'One stop bit'
 _PARAM 5: 0, 'RS232'
-_PARAM 6: 0, 'RTU'
+_PARAM 6: 0, 'ASCII'
 _PARAM 7: 0, '0'
 _PARAM 8: 0, 'No'
 _END_PARAMETER
